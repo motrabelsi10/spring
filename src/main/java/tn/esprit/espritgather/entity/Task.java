@@ -22,9 +22,12 @@ public class Task {
     private Date finish;
     private String details;
 
-
     @ManyToOne
     private Event event;
+
+    @ManyToMany(mappedBy="tasks", cascade = CascadeType.ALL)
+    private Set<User> users;
+
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="task")
     private Set<Volunteer> volunteers;

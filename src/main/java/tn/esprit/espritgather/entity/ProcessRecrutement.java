@@ -17,5 +17,6 @@ public class ProcessRecrutement {
     private Long idProcessRecrutement;
 
     private String note;
+    private int niveau;
     private Boolean resultat;
 }

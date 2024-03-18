@@ -10,9 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 public class EventServiceImpl implements IEventService {
     EventRepository eventRepository;
-    public List<Event> retrieveAllEvents() {
-        return eventRepository.findAll();
-    }
+    public List<Event> retrieveAllEvents() { return eventRepository.findAll(); }
     public Event retrieveEvent(Long eventId) {
         return eventRepository.findById(eventId).get();
     }

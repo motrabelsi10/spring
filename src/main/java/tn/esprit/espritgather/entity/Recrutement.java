@@ -16,10 +16,13 @@ public class Recrutement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idRecrutement;
 
-    private Date start;
-    private Date finish;
+    private Date dateStart;
+    private Date dateFinish;
 
     @ManyToOne
     private  User user;
+
+    @OneToOne
+    private ProcessRecrutement processRecrutement;
 
 }

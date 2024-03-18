@@ -3,10 +3,8 @@ package tn.esprit.espritgather.entity;
 import lombok.*;
 import jakarta.persistence.*;
 
-import java.util.Date;
-import java.util.Set;
 import tn.esprit.espritgather.enumeration.Bloc;
-import tn.esprit.espritgather.enumeration.Role;
+import tn.esprit.espritgather.enumeration.Classe;
 
 @Entity
 @Getter
@@ -20,4 +18,8 @@ public class Salle {
     private Long idSalle;
     @Enumerated(EnumType.STRING)
     private Bloc bloc;
+
+    @Enumerated(EnumType.STRING)
+    private Classe classe;
+
 }

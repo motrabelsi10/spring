@@ -3,6 +3,8 @@ package tn.esprit.espritgather.entity;
 import lombok.*;
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @Setter
@@ -17,4 +19,6 @@ public class Ticket {
     @OneToOne
     private Event event;
     private double price;
+
+    private Date dateAchat;
 }

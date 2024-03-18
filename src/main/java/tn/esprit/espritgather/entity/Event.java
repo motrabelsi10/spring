@@ -19,6 +19,7 @@ public class Event {
     private Date dateStart;
     private Date dateFinish;
     private String place;
+
     @OneToOne(mappedBy="event")
     private Ticket ticket;
 

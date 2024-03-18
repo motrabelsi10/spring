@@ -4,6 +4,8 @@ import lombok.*;
 import jakarta.persistence.*;
 import tn.esprit.espritgather.enumeration.Bloc;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @Setter
@@ -15,7 +17,12 @@ public class Management {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idManagement;
 
+    private Date heureStart;
+    private Date heureFinish;
 
-    @Enumerated(EnumType.STRING)
-    private Bloc bloc;
+
+    @OneToOne
+    private Salle salle;
+
+
 }

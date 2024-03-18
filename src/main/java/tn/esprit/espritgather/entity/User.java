@@ -39,6 +39,9 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Interaction> interactions;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Task> tasks;
+
 
 }
 
