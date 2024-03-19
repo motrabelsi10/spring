@@ -19,10 +19,12 @@ public class Recrutement {
     private Date dateStart;
     private Date dateFinish;
 
-    @ManyToOne
-    private  User user;
+    private int step;
 
-    @OneToOne
-    private ProcessRecrutement processRecrutement;
+    @ManyToMany(mappedBy="recrutements", cascade = CascadeType.ALL)
+    private Set<User> users;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="recrutement")
+    private Set<ProcessRecrutement> processRecrutement;
 
 }

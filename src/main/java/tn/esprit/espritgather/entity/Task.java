@@ -16,21 +16,20 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idTask;
-
     private Boolean approuvement;
-    private Date start;
-    private Date finish;
+    private Date taskStart;
+    private Date taskFinish;
     private String details;
-
+    private int numberVolunteer;
     @ManyToOne
     private Event event;
 
-    @ManyToMany(mappedBy="tasks", cascade = CascadeType.ALL)
-    private Set<User> users;
-
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="task")
+    @ManyToMany(cascade = CascadeType.ALL)
     private Set<Volunteer> volunteers;
+
+
+
+
 
 
 }

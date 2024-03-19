@@ -3,6 +3,8 @@ package tn.esprit.espritgather.entity;
 import lombok.*;
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @Setter
@@ -16,7 +18,6 @@ public class Interaction {
 
     private Boolean liked;
     private Boolean dislike;
-    private String body;
 
     @ManyToOne
     private Publication publication;

@@ -15,7 +15,6 @@ public class Publication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPublication;
-
     private String body;
     private Date datePublication;
 

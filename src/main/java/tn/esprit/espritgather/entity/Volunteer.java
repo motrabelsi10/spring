@@ -15,8 +15,13 @@ public class Volunteer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idVolunteer;
 
-    @ManyToOne
-    private Task task;
+    private Boolean approuvement;
+
+    @ManyToMany(mappedBy="volunteers", cascade = CascadeType.ALL)
+    private Set<Task> tasks;
+
+    @ManyToMany(mappedBy="volunteers", cascade = CascadeType.ALL)
+    private Set<User> users;
 
 
 

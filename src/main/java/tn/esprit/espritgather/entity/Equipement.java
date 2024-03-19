@@ -20,6 +20,8 @@ public class Equipement {
     private Long idEquipmenet;
     @Enumerated(EnumType.STRING)
     private Equip equipement;
+    private Boolean approuvement;
+    private String other;
 
     @Enumerated(EnumType.STRING)
     private TypeEquip typeequip;

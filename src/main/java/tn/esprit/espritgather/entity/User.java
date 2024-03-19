@@ -15,20 +15,24 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUser;
-    private String nom;
-    private String prenom;
-    private Date dateNaissance;
-    private String adresse;
+    private String firstName;
+    private String lastName;
+    private Date birthDay;
+    private String address;
     private String mail;
-    private String numTelephone;
+    private String telNumber;
+    private String password;
+    private Boolean approuvement;
     @Enumerated(EnumType.STRING)
     private Role role;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Event> events;
 
+
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<Recrutement> recrutements;
+    private Set<Ticket> tickets;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Feedback> feedbacks;
@@ -40,7 +44,12 @@ public class User {
     private Set<Interaction> interactions;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    private Set<Task> tasks;
+    private Set<Volunteer> volunteers;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Recrutement> recrutements;
+
+
 
 
 }

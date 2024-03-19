@@ -2,6 +2,7 @@ package tn.esprit.espritgather.entity;
 
 import lombok.*;
 import jakarta.persistence.*;
+import tn.esprit.espritgather.enumeration.TypeTicket;
 
 import java.util.Date;
 
@@ -14,11 +15,14 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idTicket;
-
-
-    @OneToOne
-    private Event event;
     private double price;
-
     private Date dateAchat;
+
+    @Enumerated(EnumType.STRING)
+    private TypeTicket typeticket;
+    @ManyToOne
+    private User user;
+    @ManyToOne
+    private Event event;
+
 }

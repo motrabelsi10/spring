@@ -3,6 +3,8 @@ package tn.esprit.espritgather.entity;
 import lombok.*;
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @Setter
@@ -14,10 +16,10 @@ public class Feedback {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idFeedback;
 
-    private String Title;
+    private String title;
     private String body;
-    private Boolean good;
-    private Boolean bad;
+    private Boolean note;
+    private Date dateFeedback;
 
     @ManyToOne
     private User user;

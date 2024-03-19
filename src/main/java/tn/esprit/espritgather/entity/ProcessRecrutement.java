@@ -16,7 +16,11 @@ public class ProcessRecrutement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idProcessRecrutement;
 
-    private String note;
-    private int niveau;
-    private Boolean resultat;
+    private Boolean noteN;
+    private String Niveau;
+
+    @ManyToOne
+    private Recrutement recrutement;
+
+
 }
