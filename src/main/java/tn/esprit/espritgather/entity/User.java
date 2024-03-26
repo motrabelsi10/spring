@@ -1,4 +1,5 @@
 package tn.esprit.espritgather.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import tn.esprit.espritgather.enumeration.Role;
 
 import lombok.*;
@@ -25,27 +26,27 @@ public class User {
     private Boolean approuvement;
     @Enumerated(EnumType.STRING)
     private Role role;
-
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Event> events;
 
 
-
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Ticket> tickets;
-
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Feedback> feedbacks;
-
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Publication> publications;
-
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Interaction> interactions;
-
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Volunteer> volunteers;
-
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Recrutement> recrutements;
 
