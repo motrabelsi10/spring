@@ -32,8 +32,6 @@ public class FeedbackRestController {
     // http://localhost:8089/espritgather/feedback/add-feedback
     @PostMapping("/add-feedback")
     public Feedback addfeedback(@RequestBody Feedback c) {
-        System.out.println("Received feedback: " + c.toString());
-
        return feedbackService.addFeedback(c);
     }
     // http://localhost:8089/espritgather/feedback/remove-feedback/{feedback-id}

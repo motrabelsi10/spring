@@ -40,4 +40,7 @@ public class Event {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
     private Set<Publication> publications;
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL, mappedBy="event")
+    private Management managements;
 }

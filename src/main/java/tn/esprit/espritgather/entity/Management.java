@@ -27,7 +27,8 @@ public class Management {
 
     @Enumerated(EnumType.STRING)
     private Classe classe;
-
+    @OneToOne
+    private Event event;
 
 
 }
