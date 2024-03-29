@@ -3,6 +3,9 @@ package tn.esprit.espritgather.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import jakarta.persistence.*;
+import tn.esprit.espritgather.enumeration.TypeTicket;
+
+import java.sql.Blob;
 import java.util.Date;
 import java.util.Set;
 
@@ -16,14 +19,20 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEvent;
     private String nameEvent;
-    private String informations;
+    private String description;
     private Date dateStart;
     private Date dateFinish;
     private String place;
+    private double price;
+
+
+
     private int nbt;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
-    private Set<Ticket> tickets;
+    @Enumerated(EnumType.STRING)
+    private TypeTicket typeticket;
+
+
 
     @ManyToOne
     private User user;

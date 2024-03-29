@@ -9,5 +9,7 @@ public interface ITicketService {
     public Ticket addTicket(Ticket c);
     public void removeTicket(Long idTicket);
     public Ticket modifyTicket(Ticket ticket);
+    List<Ticket> retrieveTicketsByEvent(Long eventId);
+
 
 }

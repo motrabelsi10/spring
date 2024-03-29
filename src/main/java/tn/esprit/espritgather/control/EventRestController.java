@@ -12,12 +12,12 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/event")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class EventRestController {
     IEventService eventService;
     // http://localhost:8089/espritgather/event/retrieve-all-events
    @Operation(description = "récupérer toutes les event de la base de données")
-    @GetMapping("/events")
+    @GetMapping("/retrieve-all-events")
     public List<Event> getevents() {
         List<Event> listEvents = eventService.retrieveAllEvents();
         return listEvents;
@@ -29,7 +29,7 @@ public class EventRestController {
         return event;
     }
     // http://localhost:8089/espritgather/event/add-event
-    @PostMapping("/events")
+    @PostMapping("/add-event")
     public Event addevent(@RequestBody Event c) {
         Event event = eventService.addEvent(c);
         return event;

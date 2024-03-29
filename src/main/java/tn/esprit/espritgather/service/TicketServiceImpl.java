@@ -28,5 +28,8 @@ public class TicketServiceImpl implements ITicketService {
         return ticketRepository.save(ticket);
     }
 
+    public List<Ticket> retrieveTicketsByEvent(Long eventId) {
+        return ticketRepository.findTicketsByEventIdEvent(eventId);
+    }
 
     }
