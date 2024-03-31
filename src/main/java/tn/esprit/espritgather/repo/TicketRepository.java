@@ -9,4 +9,5 @@ public interface TicketRepository  extends JpaRepository<Ticket,Long> {
 
     List<Ticket> findTicketsByEventIdEvent(Long eventId);
 
+
 }

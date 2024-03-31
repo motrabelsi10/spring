@@ -27,9 +27,10 @@ public class Ticket {
     @ManyToOne
     private User user;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+
+    @ManyToOne
     @JoinColumn(name = "event")
-    Event event;
+    private Event event;
 
 
 }

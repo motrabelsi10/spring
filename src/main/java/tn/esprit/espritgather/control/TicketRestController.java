@@ -3,6 +3,7 @@ package tn.esprit.espritgather.control;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.espritgather.entity.Event;
 import tn.esprit.espritgather.entity.Ticket;
@@ -54,16 +55,31 @@ public class TicketRestController {
     @PostMapping("/add-ticket-by-event/{event-id}")
     public Ticket addTicketByEvent(@RequestBody Ticket ticket, @PathVariable("event-id") Long eventId) {
         Event event = eventService.retrieveEvent(eventId);
-        if (event == null) {
-            // Gérer le cas où l'événement n'existe pas
-            // Vous pouvez lever une exception ou retourner un message d'erreur approprié
-            return null;
-        }
+
 
         ticket.setEvent(event);
         Ticket addedTicket = ticketService.addTicket(ticket);
         return addedTicket;
     }
+
+
+    @DeleteMapping("/delete-ticket-by-event/{event-id}/{ticket-id}")
+    public ResponseEntity<String> deleteTicketByEvent(@PathVariable("event-id") Long eventId, @PathVariable("ticket-id") Long ticketId) {
+        Event event = eventService.retrieveEvent(eventId);
+        if (event == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Ticket ticket = ticketService.retrieveTicket(ticketId);
+        if (ticket == null || !ticket.getEvent().getIdEvent().equals(eventId)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        ticketService.removeTicket(ticketId);
+        return ResponseEntity.ok("Ticket with ID " + ticketId + " deleted successfully.");
+    }
+
+
 
     @GetMapping("/retrieve-tickets-by-event/{event-id}")
     public List<Ticket> retrieveTicketsByEvent(@PathVariable("event-id") Long eventId) {
