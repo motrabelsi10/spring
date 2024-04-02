@@ -14,11 +14,13 @@ public class Volunteer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idVolunteer;
-
+    private String nameVolunteer;
     private Boolean approuvement;
+    private String reason;
+    private String availabilityVolunteer;
 
-    @ManyToMany(mappedBy="volunteers", cascade = CascadeType.ALL)
-    private Set<Task> tasks;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<Task> chosenTask;
 
     @ManyToMany(mappedBy="volunteers", cascade = CascadeType.ALL)
     private Set<User> users;
