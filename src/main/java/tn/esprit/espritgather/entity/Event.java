@@ -22,25 +22,9 @@ public class Event {
     private String place;
     private int nbt;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
-    private Set<Ticket> tickets;
 
     @ManyToOne
     private User user;
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
-    private Set<Feedback> feedbacks;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
-    private Set<Task> tasks;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
-    private Set<Equipement> equipements;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
-    private Set<Publication> publications;
-    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL, mappedBy="event")
-    private Management managements;
+
 }

@@ -26,17 +26,11 @@ public class User {
     private Boolean approuvement;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<Event> events;
 
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Ticket> tickets;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<Feedback> feedbacks;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Publication> publications;

@@ -17,10 +17,8 @@ public class Management {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idManagement;
-
+    private String details;
     private Boolean approuvement;
-    private Date heureStart;
-    private Date heureFinish;
 
     @Enumerated(EnumType.STRING)
     private Bloc bloc;

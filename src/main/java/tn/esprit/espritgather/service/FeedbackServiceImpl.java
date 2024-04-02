@@ -27,6 +27,7 @@ public class FeedbackServiceImpl implements IFeedbackService {
     @Transactional
     @Override
     public Feedback addFeedback(Feedback feedback) {
+        feedback.setDateFeedback(new Date());
         feedbackRepository.save(feedback);
         return feedback;
     }
@@ -40,11 +41,12 @@ public class FeedbackServiceImpl implements IFeedbackService {
     @Transactional
     @Override
     public Feedback modifyFeedback(Feedback feedback) {
-        String sql = "UPDATE `feedback` SET `body`='"+feedback.getBody()+"',`title`='"+feedback.getTitle()+"' WHERE `id_feedback`='"+feedback.getIdFeedback()+"'   ";
-        entityManager.createNativeQuery(sql).executeUpdate();
+        feedback.setDateFeedback(new Date());
+      //  String sql = "UPDATE `feedback` SET `body`='"+feedback.getBody()+"',`title`='"+feedback.getTitle()+"',`date_feedback`='"+feedback.getDateFeedback()+"' WHERE `id_feedback`='"+feedback.getIdFeedback()+"'   ";
+      //  entityManager.createNativeQuery(sql).executeUpdate();
 
 
-    //    feedbackRepository.save(feedback);
+       feedbackRepository.save(feedback);
         return feedback;
     }
 }

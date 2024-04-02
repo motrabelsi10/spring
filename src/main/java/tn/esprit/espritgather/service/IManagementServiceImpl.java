@@ -30,7 +30,10 @@ public class IManagementServiceImpl implements IManagementService {
 
     @Override
     public void removeManagement(Long idManagement) {
-        managementRepository.deleteById(idManagement);
+       /* String sql = "DELETE FROM `management` WHERE `management`.`id_management` = "+idManagement;
+        entityManager.createNativeQuery(sql);*/
+
+      managementRepository.deleteById(idManagement);
     }
 
     @Transactional
