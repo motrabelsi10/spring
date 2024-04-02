@@ -15,16 +15,18 @@ public class Recrutement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idRecrutement;
-
+    private String title;
+    private String description;
     private Date dateStart;
     private Date dateFinish;
 
-    private int step;
+    private int niveau;
 
     @ManyToMany(mappedBy="recrutements", cascade = CascadeType.ALL)
     private Set<User> users;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="recrutement")
-    private Set<ProcessRecrutement> processRecrutement;
 
+    public void setRecrutement(Recrutement recrutement) {
+
+    }
 }

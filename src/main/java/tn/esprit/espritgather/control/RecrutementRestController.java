@@ -17,7 +17,7 @@ public class RecrutementRestController {
     IRecrutementService recrutementService;
     // http://localhost:8089/espritgather/recrutement/retrieve-all-recrutements
     @Operation(description = "récupérer toutes les recrutement de la base de données")
-    @GetMapping("/recrutements")
+    @GetMapping("/retrieve-all-recrutements")
     public List<Recrutement> getrecrutements() {
         List<Recrutement> listRecrutements = recrutementService.retrieveAllRecrutements();
         return listRecrutements;
@@ -29,7 +29,7 @@ public class RecrutementRestController {
         return recrutement;
     }
     // http://localhost:8089/espritgather/recrutement/add-recrutement
-    @PostMapping("/recrutements")
+    @PostMapping("/add-recrutement")
     public Recrutement addrecrutement(@RequestBody Recrutement r) {
         Recrutement recrutement = recrutementService.addRecrutement(r);
         return recrutement;

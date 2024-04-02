@@ -10,4 +10,10 @@ public interface IProcessRecrutementService {
     public ProcessRecrutement addProcess(ProcessRecrutement process);
     public void removeProcess(Long idProcessRecrutement);
     public ProcessRecrutement modifyProcess(ProcessRecrutement process);
+    List<ProcessRecrutement> retrieveProcessesByRecrutement(Long idRecrutement);
+    //void createProcessRecrutement(ProcessRecrutement processRecrutement);
+
+    // Nouvelle méthode pour décrémenter le nombre de postes vacants
+  //  void decrementVacancies(Long idRecrutement);
 }
+
