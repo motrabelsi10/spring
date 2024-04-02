@@ -18,7 +18,7 @@ public class Feedback {
 
     private String title;
     private String body;
-    private Boolean note;
+    private Date datevu;
     private Date dateFeedback;
 
     @ManyToOne
