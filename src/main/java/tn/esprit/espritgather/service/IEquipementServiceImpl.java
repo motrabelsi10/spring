@@ -38,8 +38,9 @@ public class IEquipementServiceImpl implements IEquipementService{
     @Transactional
     @Override
     public Equipement modifyEquipement(Equipement equipement) {
-        String sql ="UPDATE `equipement` SET `equipement`='"+equipement.getEquipement()+"',`other`='"+equipement.getOther()+"',`price`='"+equipement.getPrice()+"',`typeequip`='"+equipement.getTypeequip()+"' WHERE `id_equipmenet`='"+equipement.getIdEquipmenet()+"'";
-        entityManager.createNativeQuery(sql).executeUpdate();
+      /*  String sql ="UPDATE `equipement` SET `equipement`='"+equipement.getEquipement()+"',`other`='"+equipement.getOther()+"',`price`='"+equipement.getPrice()+"',`quantite`='"+equipement.getQuantite()+"',`datemeeting`='"+equipement.getDatemeeting()+"',`typeequip`='"+equipement.getTypeequip()+"' WHERE `id_equipmenet`='"+equipement.getIdEquipmenet()+"'";
+        entityManager.createNativeQuery(sql).executeUpdate();*/
+        equipementRepository.save(equipement);
         return equipement;
     }
 }

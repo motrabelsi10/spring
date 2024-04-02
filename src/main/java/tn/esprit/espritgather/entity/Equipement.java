@@ -20,14 +20,13 @@ public class Equipement {
     private Long idEquipmenet;
     @Enumerated(EnumType.STRING)
     private Equip equipement;
-    private Boolean approuvement;
-    private String other;
-
     @Enumerated(EnumType.STRING)
     private TypeEquip typeequip;
-
+    private Float quantite;
+    private String other;
     private float price;
-
+    private Boolean approuvement;
+    private Date datemeeting;
     @ManyToOne
     private Event event;
 }
