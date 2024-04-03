@@ -44,7 +44,6 @@ public class FeedbackServiceImpl implements IFeedbackService {
     @Override
     public Feedback modifyFeedback(Feedback feedback) {
         feedback.setDateFeedback(new Date());
-        feedback.setDatevu(new Date());
       //  String sql = "UPDATE `feedback` SET `body`='"+feedback.getBody()+"',`title`='"+feedback.getTitle()+"',`date_feedback`='"+feedback.getDateFeedback()+"' WHERE `id_feedback`='"+feedback.getIdFeedback()+"'   ";
       //  entityManager.createNativeQuery(sql).executeUpdate();
 

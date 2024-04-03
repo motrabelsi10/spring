@@ -47,8 +47,9 @@ public class IManagementServiceImpl implements IManagementService {
     @Transactional
     @Override
     public Management modifyManagement(Management management) {
-        String sql ="UPDATE `management` SET `bloc`='"+management.getBloc()+"',`classe`='"+management.getClasse()+"' WHERE `id_management`='"+management.getIdManagement()+"'  ";
-        entityManager.createNativeQuery(sql).executeUpdate();
+       // String sql ="UPDATE `management` SET `bloc`='"+management.getBloc()+"',`classe`='"+management.getClasse()+"' WHERE `id_management`='"+management.getIdManagement()+"'  ";
+        //entityManager.createNativeQuery(sql).executeUpdate();
+        managementRepository.save(management);
         return management;
     }
 }
