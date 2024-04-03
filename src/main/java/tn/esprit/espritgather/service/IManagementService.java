@@ -10,4 +10,6 @@ public interface IManagementService {
     public Management addManagement(Management management);
     public void removeManagement(Long idManagement);
     public Management modifyManagement(Management management);
+
+    Management addManagementAdmin(Management c);
 }

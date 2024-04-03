@@ -11,4 +11,5 @@ public interface IFeedbackService {
     public void removeFeedback(Long idFeedback);
     public Feedback modifyFeedback(Feedback feedback);
 
+    Feedback addFeedbackadmin(Feedback c);
 }

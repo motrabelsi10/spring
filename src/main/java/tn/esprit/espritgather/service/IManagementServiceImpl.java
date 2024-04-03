@@ -25,6 +25,15 @@ public class IManagementServiceImpl implements IManagementService {
 
     @Override
     public Management addManagement(Management management) {
+        management.setBloc(null);
+        management.setClasse(null);
+        management.setApprouvement(null);
+        return managementRepository.save(management);
+    }
+
+
+    @Override
+    public Management addManagementAdmin(Management management) {
         return managementRepository.save(management);
     }
 
@@ -32,7 +41,6 @@ public class IManagementServiceImpl implements IManagementService {
     public void removeManagement(Long idManagement) {
        /* String sql = "DELETE FROM `management` WHERE `management`.`id_management` = "+idManagement;
         entityManager.createNativeQuery(sql);*/
-
       managementRepository.deleteById(idManagement);
     }
 

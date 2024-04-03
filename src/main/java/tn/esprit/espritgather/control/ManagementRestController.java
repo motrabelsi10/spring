@@ -49,7 +49,11 @@ IManagementService managementService;
         managementService.removeManagement(chId);
     }
 
-
+    // http://localhost:8089/espritgather/management/add-management-admin
+    @PutMapping("/add-management-admin")
+    public Management addManagementAdmin(@RequestBody Management c) {
+        return managementService.addManagementAdmin(c);
+    }
 
 
 

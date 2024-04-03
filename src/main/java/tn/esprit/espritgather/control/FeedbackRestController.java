@@ -34,6 +34,13 @@ public class FeedbackRestController {
     public Feedback addfeedback(@RequestBody Feedback c) {
        return feedbackService.addFeedback(c);
     }
+
+    // http://localhost:8089/espritgather/feedback/add-feedback-admin
+    @PutMapping("/add-feedback-admin")
+    public Feedback addfeedbackadmin(@RequestBody Feedback c) {
+        return feedbackService.addFeedbackadmin(c);
+    }
+
     // http://localhost:8089/espritgather/feedback/remove-feedback/{feedback-id}
     @DeleteMapping("/remove-feedback/{feedback-id}")
     public void removeFeedback(@PathVariable("feedback-id") Long chId) {

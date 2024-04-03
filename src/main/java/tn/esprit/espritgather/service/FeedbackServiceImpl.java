@@ -1,6 +1,7 @@
 package tn.esprit.espritgather.service;
 import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.espritgather.entity.Feedback;
@@ -28,7 +29,7 @@ public class FeedbackServiceImpl implements IFeedbackService {
     @Override
     public Feedback addFeedback(Feedback feedback) {
         feedback.setDateFeedback(new Date());
-        feedback.setDatevu(new Date());
+        feedback.setDatevu(null);
         feedbackRepository.save(feedback);
         return feedback;
     }
@@ -50,5 +51,15 @@ public class FeedbackServiceImpl implements IFeedbackService {
 
        feedbackRepository.save(feedback);
         return feedback;
+    }
+
+    @Transactional
+    @Override
+    public Feedback addFeedbackadmin(Feedback c) {
+          c.setDatevu(new Date());
+        //  String sql = "UPDATE `feedback` SET `datevu`='"+ c.getDatevu()+"' WHERE `id_feedback`='"+c.getIdFeedback()+"'   ";
+        //  entityManager.createNativeQuery(sql).executeUpdate();
+        feedbackRepository.save(c);
+        return c;
     }
 }
