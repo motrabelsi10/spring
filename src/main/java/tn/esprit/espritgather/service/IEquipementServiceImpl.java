@@ -26,6 +26,8 @@ public class IEquipementServiceImpl implements IEquipementService{
 
     @Override
     public Equipement addEquipement(Equipement equipement) {
+        equipement.setApprouvement(null);
+        equipement.setDatemeeting(null);
         return equipementRepository.save(equipement);
     }
 
@@ -42,5 +44,11 @@ public class IEquipementServiceImpl implements IEquipementService{
         entityManager.createNativeQuery(sql).executeUpdate();*/
         equipementRepository.save(equipement);
         return equipement;
+    }
+
+    @Override
+    public Equipement addEquipementAdmin(Equipement c) {
+        equipementRepository.save(c);
+        return c;
     }
 }

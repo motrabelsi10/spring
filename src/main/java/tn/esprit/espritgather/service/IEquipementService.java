@@ -11,4 +11,5 @@ public interface IEquipementService {
     public void removeEquipement (long id);
     public Equipement modifyEquipement(Equipement equipement);
 
+    Equipement addEquipementAdmin(Equipement c);
 }

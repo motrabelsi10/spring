@@ -49,6 +49,12 @@ public class EquipementRestController {
     }
 
 
+    // http://localhost:8089/espritgather/equipement/add-equipement-admin
+    @PutMapping("/add-equipement-admin")
+    public Equipement modifyEquipementAdmin(@RequestBody Equipement c) {
+        return equipementService.addEquipementAdmin(c);
+    }
+
 
 
 
