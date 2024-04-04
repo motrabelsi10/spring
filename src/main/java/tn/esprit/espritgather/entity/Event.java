@@ -3,7 +3,9 @@ package tn.esprit.espritgather.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Type;
 import tn.esprit.espritgather.enumeration.TypeTicket;
+import org.hibernate.annotations.Type;
 
 import java.sql.Blob;
 import java.util.Date;
@@ -23,6 +25,13 @@ public class Event {
     private Date dateStart;
     private Date dateFinish;
     private String place;
+
+
+
+    @Lob
+    private byte[] image;
+    private String imagePath;
+
     private double price;
 
 
@@ -31,6 +40,8 @@ public class Event {
 
     @Enumerated(EnumType.STRING)
     private TypeTicket typeticket;
+
+
 
 
 
@@ -49,4 +60,6 @@ public class Event {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
     private Set<Publication> publications;
+
+
 }
