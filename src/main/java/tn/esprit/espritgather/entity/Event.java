@@ -25,11 +25,6 @@ public class Event {
     private Date dateStart;
     private Date dateFinish;
     private String place;
-
-
-
-    @Lob
-    private byte[] image;
     private String imagePath;
 
     private double price;
