@@ -1,4 +1,18 @@
 package tn.esprit.espritgather.control;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.google.zxing.common.BitMatrix;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,9 +51,12 @@ public class TicketRestController {
     // http://localhost:8089/espritgather/ticket/add-ticket
     @PostMapping("/add-ticket")
     public Ticket addTicket(@RequestBody Ticket c) {
+        byte[] qrCode = generateQRCode(c.getIdTicket());
+        c.setQrCode(qrCode);
         Ticket ticket = ticketService.addTicket(c);
         return ticket;
     }
+
     // http://localhost:8089/espritgather/ticket/remove-ticket/{ticket-id}
     @DeleteMapping("/remove-ticket/{ticket-id}")
     public void removeTicket(@PathVariable("ticket-id") Long chId) {
@@ -55,6 +72,8 @@ public class TicketRestController {
     @PostMapping("/add-ticket-by-event/{event-id}")
     public Ticket addTicketByEvent(@RequestBody Ticket ticket, @PathVariable("event-id") Long eventId) {
         Event event = eventService.retrieveEvent(eventId);
+        byte[] qrCode = generateQRCode(ticket.getIdTicket());
+        ticket.setQrCode(qrCode);
 
 
         ticket.setEvent(event);
@@ -87,4 +106,77 @@ public class TicketRestController {
         return tickets;
     }
 
-}
+
+
+
+        public static byte[] generateQRCode(Long ticketId) {
+            try {
+                // Créer un objet contenant uniquement les attributs idTicket et nbTs
+                ObjectMapper objectMapper = new ObjectMapper();
+                String jsonData = objectMapper.writeValueAsString(ticketId);
+
+                // Définir la taille du QR code
+                int width = 300;
+                int height = 300;
+
+                // Créer le map d'indices d'encodage pour définir le niveau de correction d'erreur
+                Map<EncodeHintType, ErrorCorrectionLevel> hintMap = new HashMap<>();
+                hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+
+                // Créer le QR code
+                QRCodeWriter qrCodeWriter = new QRCodeWriter();
+                BitMatrix bitMatrix = qrCodeWriter.encode(jsonData, BarcodeFormat.QR_CODE, width, height, hintMap);
+
+                // Créer une image tampon pour dessiner
+                BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+                Graphics2D graphics = (Graphics2D) image.getGraphics();
+                graphics.setColor(Color.WHITE);
+                graphics.fillRect(0, 0, width, height);
+                graphics.setColor(Color.BLACK);
+
+                // Écrire la matrice de bits dans l'image tampon
+                for (int x = 0; x < width; x++) {
+                    for (int y = 0; y < height; y++) {
+                        if (bitMatrix.get(x, y)) {
+                            graphics.fillRect(x, y, 1, 1);
+                        }
+                    }
+                }
+
+                // Convertir l'image tampon en tableau d'octets
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                ImageIO.write(image, "png", byteArrayOutputStream);
+                return byteArrayOutputStream.toByteArray();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        // Classe interne pour stocker les données du ticket à encoder dans le QR code
+        private static class TicketData {
+            private Long idTicket;
+            private int nbTs;
+
+            public TicketData(Long idTicket, int nbTs) {
+                this.idTicket = idTicket;
+                this.nbTs = nbTs;
+            }
+
+            public Long getIdTicket() {
+                return idTicket;
+            }
+
+            public void setIdTicket(Long idTicket) {
+                this.idTicket = idTicket;
+            }
+
+            public int getNbTs() {
+                return nbTs;
+            }
+
+            public void setNbTs(int nbTs) {
+                this.nbTs = nbTs;
+            }
+        }
+    }

@@ -22,7 +22,9 @@ public class Ticket {
 
     @Enumerated(EnumType.STRING)
     private TypePay typePay;
-
+    @Lob
+    @Column(length = 1048576)
+    private byte[] qrCode;
 
     @ManyToOne
     private User user;
@@ -31,6 +33,8 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "event")
     private Event event;
+
+
 
 
 }
