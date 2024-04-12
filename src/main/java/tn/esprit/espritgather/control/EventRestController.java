@@ -103,6 +103,22 @@ public class EventRestController {
         return listEvents;
     }
 
+    @GetMapping("/ordered-by-price")
+    public ResponseEntity<List<Event>> getAllEventsOrderedByPriceAsc() {
+        List<Event> events = eventService.findAllEventsOrderedByPriceAsc();
+        return ResponseEntity.ok(events);
+    }
+
+    @GetMapping("/ordered-by-nbt")
+    public ResponseEntity<List<Event>> findAllEventsOrderedByNbt() {
+        List<Event> events = eventService.findAllEventsOrderedByNbt();
+        return ResponseEntity.ok(events);
+    }
+
+
+
+
+
 
 
 

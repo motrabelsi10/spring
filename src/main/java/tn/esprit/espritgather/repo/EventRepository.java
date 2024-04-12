@@ -14,4 +14,10 @@ public interface EventRepository extends JpaRepository<Event,Long> {
     // JPQL
     @Query("SELECT e FROM Event e WHERE e.nameEvent =:name")
     List<Event> retrieveEventsByNameEvent(@Param("name") String name);
+
+    @Query("SELECT e FROM Event e ORDER BY e.price ASC")
+    List<Event> findAllByOrderByPriceAsc();
+
+    @Query("SELECT e FROM Event e ORDER BY e.nbt ASC")
+    List<Event> findAllEventsOrderedByNbt();
 }

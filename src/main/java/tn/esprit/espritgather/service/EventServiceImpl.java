@@ -48,16 +48,20 @@ public class EventServiceImpl implements IEventService {
         byte[] bytes = imageFile.getBytes();
         Path path = Paths.get(filePath);
         Files.write(path, bytes);
-        return fileName; // Retourner uniquement le nom du fichier
+        return fileName;
     }
-
-
-
-
-
-
 
     public List<Event> retrieveEventByNameEvent(String name){
         return eventRepository.findEventsByNameEvent(name);
     }
+
+    public List<Event> findAllEventsOrderedByPriceAsc() {
+        return eventRepository.findAllByOrderByPriceAsc();
+    }
+
+    public List<Event> findAllEventsOrderedByNbt() {
+        return eventRepository.findAllEventsOrderedByNbt();
+    }
+
+
 }
