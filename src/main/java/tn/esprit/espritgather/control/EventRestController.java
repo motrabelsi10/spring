@@ -69,15 +69,6 @@ public class EventRestController {
     }
 
 
-/*
-    // http://localhost:8089/espritgather/event/add-event
-    @PostMapping("/add-event")
-    public Event addevent(@RequestBody Event c) {
-        Event event = eventService.addEvent(c);
-        return event;
-    }
-*/
-
     @PostMapping("/add-event")
     public ResponseEntity<Event> addEvent(@ModelAttribute Event event, @RequestParam("imageFile") MultipartFile imageFile) {
         try {

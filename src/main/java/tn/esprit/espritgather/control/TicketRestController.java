@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -105,6 +106,25 @@ public class TicketRestController {
         List<Ticket> tickets = ticketService.retrieveTicketsByEvent(eventId);
         return tickets;
     }
+
+    @GetMapping("/total-tickets-by-date")
+    public ResponseEntity<Map<String, Long>> getTotalTicketsByDateAchat() {
+        Map<String, Long> totalTicketsByDate = ticketService.getTotalTicketsByDateAchat();
+        return ResponseEntity.ok(totalTicketsByDate);
+    }
+
+    @GetMapping("/total-tickets-by-typeachat")
+    public ResponseEntity<Map<String, Long>> getTotalTicketsByTypeAchat() {
+        Map<String, Long> totalTicketsByTypeAchat = ticketService.findTotalTicketsByTypeAchat();
+        return ResponseEntity.ok(totalTicketsByTypeAchat);
+    }
+
+    @GetMapping("/total-prices-by-event")
+    public ResponseEntity<Map<String, Double>> getTotalPricesByEvent() {
+        Map<String, Double> totalPricesByEvent = ticketService.findTotalPricesByEvent();
+        return ResponseEntity.ok(totalPricesByEvent);
+    }
+
 
 
 
