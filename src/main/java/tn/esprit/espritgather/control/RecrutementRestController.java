@@ -37,7 +37,9 @@ public class RecrutementRestController {
     // http://localhost:8089/espritgather/recrutement/remove-recrutement/{recrutement-id}
     @DeleteMapping("/remove-recrutement/{recrutement-id}")
     public void removerecrutement(@PathVariable("recrutement-id") Long rId) {
+
         recrutementService.removeRecrutement(rId);
+
     }
     // http://localhost:8089/espritgather/recrutement/modify-recrutement
     @PutMapping("/modify-recrutement")
@@ -45,4 +47,6 @@ public class RecrutementRestController {
         Recrutement recrutement = recrutementService.modifyRecrutement(r);
         return recrutement;
     }
+
+
 }

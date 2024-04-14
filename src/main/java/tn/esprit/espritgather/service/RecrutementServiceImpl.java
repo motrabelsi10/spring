@@ -19,8 +19,10 @@ public class RecrutementServiceImpl implements IRecrutementService{
     }
     public void removeRecrutement(Long recrutementId) {
         recrutementRepository.deleteById(recrutementId);
+
     }
     public Recrutement modifyRecrutement(Recrutement recrutement) {
         return recrutementRepository.save(recrutement);
     }
+
 }

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.espritgather.entity.ProcessRecrutement;
 import tn.esprit.espritgather.entity.Recrutement;
+import tn.esprit.espritgather.enumeration.SkillLevel;
 import tn.esprit.espritgather.service.IRecrutementService;
 import tn.esprit.espritgather.service.IProcessRecrutementService;
 
@@ -26,6 +27,7 @@ import java.util.List;
 public class RecrutementProcessRestController {
     IProcessRecrutementService processService;
     IRecrutementService recrutementService;
+
     // http://localhost:8089/espritgather/process/retrieve-all-processes
     @Operation(description = "récupérer toutes les process de la base de données")
     @GetMapping("/retrieve-all-processes")
@@ -53,6 +55,8 @@ public class RecrutementProcessRestController {
     // http://localhost:8089/espritgather/process/modify-process
     @PutMapping("/modify-process")
     public ProcessRecrutement modifyProcess(@RequestBody ProcessRecrutement c) {
+
+
         ProcessRecrutement process = processService.modifyProcess(c);
         return process;
     }
@@ -67,8 +71,10 @@ public class RecrutementProcessRestController {
             Recrutement recrutement = recrutementService.retrieveRecrutement(idRecrutement);
 
             process.setRecrutement(recrutement); // Associer le recrutement au processus de recrutement
-
+            processService.compareSkillsAndApprove(recrutement, process);
             ProcessRecrutement addedProcess = processService.addProcess(process);
+            processService.approveProcess(idRecrutement);
+
             return addedProcess;
         }
 }

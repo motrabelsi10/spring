@@ -11,4 +11,6 @@ public interface IRecrutementService {
     public Recrutement addRecrutement(Recrutement recrutement);
     public void removeRecrutement(Long idRecrutement);
     public Recrutement modifyRecrutement(Recrutement recrutement);
+
+
 }
