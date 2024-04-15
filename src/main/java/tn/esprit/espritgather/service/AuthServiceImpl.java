@@ -7,13 +7,14 @@ import org.springframework.stereotype.Service;
 import tn.esprit.espritgather.dto.SignupRequest;
 import tn.esprit.espritgather.entity.User;
 import tn.esprit.espritgather.repo.UserRepository;
+import tn.esprit.espritgather.utils.JWTUtil;
 
 @Service
 public class AuthServiceImpl implements AuthService {
 
-   private final UserRepository userRepository;
-   private final PasswordEncoder passwordEncoder;
-@Autowired
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    @Autowired
     public AuthServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -21,20 +22,21 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean createUser(SignupRequest signupRequest) {
-       //Check if User exists
+        //Check if User exists
 
         User user = new User();
         //hedhi fi blasset el user.setmail(signurequest.getmail())
         BeanUtils.copyProperties(signupRequest,user);
 
-       // hash the password before saving
+        // hash the password before saving
         String hashPassword = passwordEncoder.encode(signupRequest.getPassword());
         user.setPassword(hashPassword);
         User createdUser = userRepository.save(user);
-       // UserRepository.save(user);
+        // UserRepository.save(user);
 
 
         return true;
+
 
     }
 }

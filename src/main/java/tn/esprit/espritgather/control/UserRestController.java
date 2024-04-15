@@ -29,6 +29,15 @@ public class UserRestController {
         User user =userService.retrieveUser(chId);
         return user;
     }
+
+    // Retrieve user by email
+    @GetMapping("/retrieve-user-by-mail/{mail}")
+    public User retrieveUserByEmail(@PathVariable("mail") String mail) {
+        User user = userService.retrieveUserByMail(mail);
+        return user;
+    }
+
+
     // http://localhost:8089/espritgather/user/add-user
     @PostMapping("/users")
     public User adduser(@RequestBody User u) {

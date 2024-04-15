@@ -10,4 +10,6 @@ public interface IUserService {
     public User addUser(User u);
     public void removeUser(Long idUser);
     public User modifyUser(User user);
+   public User retrieveUserByMail(String mail);
+
 }

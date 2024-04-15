@@ -1,6 +1,8 @@
 package tn.esprit.espritgather.entity;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import tn.esprit.espritgather.enumeration.Role;
 
 import lombok.*;
@@ -17,16 +19,21 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUser;
-    @NotEmpty(message = "FirstName cannot be empty")
+    @NotNull(message = "FirstName cannot be empty")
     private String firstName;
-    @NotEmpty(message = "LastName cannot be empty")
+    @NotNull(message = "LastName cannot be empty")
     private String lastName;
+    @NotNull(message = "Birthday cannot be empty")
+
     private Date birthDay;
+    @NotNull(message = "address cannot be empty")
+
     private String address;
-    @NotEmpty(message = "Email cannot be empty")
     @Email(message = "Invalid Email , Please enter a valid email")
+    @NotBlank(message = "Email cannot be empty")
+
     private String mail;
-    @NotEmpty(message = "PhoneNumber cannot be empty")
+    @NotNull(message = "PhoneNumber cannot be empty")
     private String telNumber;
     @NotEmpty(message = "Password cannot be empty")
 

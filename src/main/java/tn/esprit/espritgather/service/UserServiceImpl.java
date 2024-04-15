@@ -20,6 +20,7 @@ public class UserServiceImpl implements IUserService {
     public User retrieveUser(Long userId) {
         return userRepository.findById(userId).get();
     }
+
     public User addUser(User u) {
         return userRepository.save(u);
     }
@@ -31,5 +32,10 @@ public class UserServiceImpl implements IUserService {
         user.setPassword(hashPassword);
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public User retrieveUserByMail(String mail) {
+        return userRepository.findBymail(mail).orElse(null);
     }
 }
