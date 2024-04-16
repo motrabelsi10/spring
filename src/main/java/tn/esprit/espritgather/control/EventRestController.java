@@ -16,7 +16,7 @@ import java.util.List;
 public class EventRestController {
     IEventService eventService;
     // http://localhost:8089/espritgather/event/retrieve-all-events
-   @Operation(description = "récupérer toutes les event de la base de données")
+    @Operation(description = "récupérer toutes les event de la base de données")
     @GetMapping("/events")
     public List<Event> getevents() {
         List<Event> listEvents = eventService.retrieveAllEvents();

@@ -1,4 +1,5 @@
 package tn.esprit.espritgather.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import tn.esprit.espritgather.enumeration.Role;
 
 import lombok.*;
@@ -26,6 +27,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Event> events;
 
@@ -37,9 +39,11 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Feedback> feedbacks;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Publication> publications;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Interaction> interactions;
 
@@ -53,4 +57,3 @@ public class User {
 
 
 }
-
