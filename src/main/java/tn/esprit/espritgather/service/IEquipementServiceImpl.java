@@ -20,6 +20,36 @@ public class IEquipementServiceImpl implements IEquipementService{
     }
 
     @Override
+    public List<Equipement> retrieveEquipementByEvent(long id) {
+        String sql ="SELECT * FROM `equipement` WHERE event_id_event = "+id+";";
+        return  entityManager.createNativeQuery(sql).getResultList();
+    }
+
+    @Override
+    public List<Equipement> retrieveEquipementByClub(long id) {
+        String sql ="SELECT * FROM equipement JOIN event ON equipement.event_id_event = event.id_event JOIN user ON event.user_id_user = user.id_user WHERE user.id_user ="+id+";";
+        return entityManager.createNativeQuery(sql).getResultList();
+    }
+
+    @Override
+    public float getPriceByEvent(long id) {
+     /*   String sql ="SELECT SUM(price) AS total_price FROM equipement WHERE event_id_event="+id+";";
+        return entityManager.createNativeQuery(sql).executeUpdate();*/
+        String sql = "SELECT SUM(price) AS total_price FROM equipement WHERE event_id_event = "+id+";";
+        return ((Number) entityManager.createNativeQuery(sql)
+                .getSingleResult())
+                .floatValue();
+    }
+
+    @Override
+    public float getPriceByClub(long id) {
+     String sql = "SELECT SUM(price) FROM equipement JOIN event ON equipement.event_id_event = event.id_event JOIN user ON event.user_id_user = user.id_user WHERE user.id_user ="+id+";";
+        return ((Number) entityManager.createNativeQuery(sql)
+                .getSingleResult())
+                .floatValue();
+    }
+
+    @Override
     public Equipement retrieveEquipement(long id) {
         return equipementRepository.findById(id).get();
     }

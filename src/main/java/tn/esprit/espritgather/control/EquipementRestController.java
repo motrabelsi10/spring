@@ -32,6 +32,32 @@ public class EquipementRestController {
     public Equipement retrieveEquipement(@PathVariable("equipement-id") Long chId) {
         return equipementService.retrieveEquipement(chId);
     }
+    // http://localhost:8089/espritgather/equipement/retrieve-equipementByEvent/8
+    @GetMapping("/retrieve-equipementByEvent/{event-id}")
+    public List <Equipement> retrieveEquipementByEvent(@PathVariable("event-id") Long chId) {
+        return equipementService.retrieveEquipementByEvent(chId);
+    }
+
+
+    // http://localhost:8089/espritgather/equipement/retrieve-equipementByClub/8
+    @GetMapping("/retrieve-equipementByClub/{club-id}")
+    public List <Equipement> retrieveEquipementByClub(@PathVariable("club-id") Long chId) {
+        return equipementService.retrieveEquipementByClub(chId);
+    }
+
+
+
+    // http://localhost:8089/espritgather/equipement/getPriceByClub/8
+    @GetMapping("/getPriceByClub/{club-id}")
+    public float getPriceByClub(@PathVariable("club-id") Long chId) {
+        return equipementService.getPriceByClub(chId);
+    }
+
+    // http://localhost:8089/espritgather/equipement/getPriceByEvent/8
+    @GetMapping("/getPriceByEvent/{club-id}")
+    public float getPriceByEvent(@PathVariable("club-id") Long chId) {
+        return equipementService.getPriceByEvent(chId);
+    }
 
 
     // http://localhost:8089/espritgather/equipement/add-equipement
