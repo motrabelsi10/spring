@@ -1,7 +1,7 @@
 package tn.esprit.espritgather.enumeration;
 
 public enum Skill {
-    WRITTEN_COMMUNICATION,
+    WRITTEN_COMMUNICATION ,
     ORAL_COMMUNICATION,
     TEAMWORK,
     COLLABORATION,
@@ -16,5 +16,7 @@ public enum Skill {
     MARKETING_COMMUNICATION,
     FINANCE_ACCOUNTING,
     HUMAN_RESOURCES,
-    ENGINEERING_CONSTRUCTION
+    ENGINEERING_CONSTRUCTION;
+
+
 }

@@ -3,14 +3,18 @@ package tn.esprit.espritgather.control;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.espritgather.entity.ProcessRecrutement;
 import tn.esprit.espritgather.entity.Recrutement;
+import tn.esprit.espritgather.enumeration.Skill;
 import tn.esprit.espritgather.enumeration.SkillLevel;
 import tn.esprit.espritgather.service.IRecrutementService;
 import tn.esprit.espritgather.service.IProcessRecrutementService;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
+import java.util.*;
 
 
 import tn.esprit.espritgather.entity.Recrutement;
@@ -18,7 +22,7 @@ import tn.esprit.espritgather.service.IProcessRecrutementService;
 
 import java.util.List;
 
-    @Tag(name = "Gestion Process")
+@Tag(name = "Gestion Process")
 @RestController
 @AllArgsConstructor
 @RequestMapping("/process")
@@ -66,15 +70,31 @@ public class RecrutementProcessRestController {
             return processes;
         }
 
-        @PostMapping("/add-process-by-recrutement/{recrutement-id}")
-        public ProcessRecrutement addProcessByRecrutement(@RequestBody ProcessRecrutement process, @PathVariable("recrutement-id") Long idRecrutement) {
-            Recrutement recrutement = recrutementService.retrieveRecrutement(idRecrutement);
+    @PostMapping("/add-process-by-recrutement/{recrutement-id}")
+    public ProcessRecrutement addProcessByRecrutement(@RequestBody ProcessRecrutement process, @PathVariable("recrutement-id") Long idRecrutement) {
+        Recrutement recrutement = recrutementService.retrieveRecrutement(idRecrutement);
 
-            process.setRecrutement(recrutement); // Associer le recrutement au processus de recrutement
-            processService.compareSkillsAndApprove(recrutement, process);
-            ProcessRecrutement addedProcess = processService.addProcess(process);
-            processService.approveProcess(idRecrutement);
+        process.setRecrutement(recrutement); // Associer le recrutement au processus de recrutement
+        processService.compareSkillsAndApprove(recrutement, process);
+        ProcessRecrutement addedProcess = processService.addProcess(process);
+        processService.approveProcess(idRecrutement);
 
-            return addedProcess;
+        return addedProcess;
+    }
+        @GetMapping("/approved")
+        public Long getApprovedProcessCount() {
+            return processService.countApprovedProcesses();
         }
+
+        @GetMapping("/non-approved")
+        public Long getNonApprovedProcessCount() {
+            return processService.countNonApprovedProcesses();
+        }
+
+     @GetMapping("/skill-selection-percentage")
+     public ResponseEntity<Map<Skill, Double>> getSkillSelectionPercentage() {
+         Map<Skill, Double> skillPercentages = processService.calculateSkillSelectionPercentageIncludingUnapproved();
+         return ResponseEntity.ok(skillPercentages);
+     }
+
 }

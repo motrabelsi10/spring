@@ -31,11 +31,12 @@ public class ProcessRecrutement {
     @ElementCollection
     @MapKeyJoinColumn(name = "skillName")
     @Column(name = "level")
-    @Enumerated(EnumType.STRING)
+
     private Map<Skill, SkillLevel> skills;
     @ManyToOne
     @JoinColumn(name = "recrutement")
     private Recrutement recrutement;
+
 
 
     public Map<Skill, SkillLevel> getSkills() {
@@ -57,7 +58,6 @@ public class ProcessRecrutement {
     public boolean getApproved() {
         return approved;
     }
-
 }
 
 

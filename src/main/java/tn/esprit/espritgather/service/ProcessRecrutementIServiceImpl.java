@@ -11,6 +11,7 @@ import tn.esprit.espritgather.repo.ProcessNotFoundException;
 import tn.esprit.espritgather.repo.ProcessRecrutementRepository;
 import tn.esprit.espritgather.repo.RecrutementRepository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +30,9 @@ public class ProcessRecrutementIServiceImpl implements IProcessRecrutementServic
     }
 
     public ProcessRecrutement addProcess(ProcessRecrutement process) {
+
         return processRecrutementRepository.save(process);
+
     }
 
     public void removeProcess(Long idProcessRecrutement) {
@@ -43,7 +46,6 @@ public class ProcessRecrutementIServiceImpl implements IProcessRecrutementServic
     public List<ProcessRecrutement> retrieveProcessesByRecrutement(Long idRecrutement) {
         return processRecrutementRepository.findProcessRecrutementByRecrutement_IdRecrutement(idRecrutement);
     }
-
     @Override
     public boolean compareSkillsAndApprove(Recrutement recrutement, ProcessRecrutement process) {
         // Compare skills and set approval status
@@ -87,36 +89,57 @@ public class ProcessRecrutementIServiceImpl implements IProcessRecrutementServic
         Recrutement process = recrutementRepository.findById(processId)
                 .orElseThrow(() -> new ProcessNotFoundException("Process not found with ID: " + processId));
 
-        if (process.getNiveau() >= 0 && p.getApproved()==false )  {  // Use "vacancies" instead of "niveau"
+        if (process.getNiveau() >= 0 && compareSkillsAndApprove(process,p))  {  // Use "vacancies" instead of "niveau"
             process.setNiveau(process.getNiveau() - 1);
 
-           if (process.getNiveau() == 0) {
+            if (process.getNiveau() == 0) {
                 recrutementRepository.delete(process); // Delete if vacancies reach zero
                 // Optional: Log deletion or notify relevant parties
             } else {
                 recrutementRepository.save(process);
             }
         }
-}
-}
-   /* @Override
-    public void createProcessRecrutement(ProcessRecrutement processRecrutement) {
-        processRecrutementRepository.save(processRecrutement);
-        // Décrémenter le nombre de postes vacants associé au recrutement
-        decrementVacancies(processRecrutement.getRecrutement().getIdRecrutement());
+}   public Long countApprovedProcesses() {
+        return processRecrutementRepository.countByApproved(true);
     }
 
-   @Override
-    public void decrementVacancies(Long idRecrutement) {
-        Recrutement recrutement = recrutementRepository.findById(idRecrutement)
-                .orElseThrow(() -> new ResourceNotFoundException("Recrutement"));
-        int remainingVacancies = recrutement.getNiveau();
-        if (remainingVacancies > 0) {
-            recrutement.setNiveau(remainingVacancies - 1);
-            recrutementRepository.save(recrutement);
-        } else {
-            throw new RuntimeException("there is no vaccanicies for this recrutement");
+    public Long countNonApprovedProcesses() {
+        return processRecrutementRepository.countByApproved(false);
+    }
+
+
+    public Map<Skill, Double> calculateSkillSelectionPercentageIncludingUnapproved() {
+        List<ProcessRecrutement> allProcesses = processRecrutementRepository.findAll();
+        Map<Skill, Integer> skillCounts = new HashMap<>();
+
+
+        for (Skill skill : Skill.values()) {
+            skillCounts.put(skill, 0);
         }
-    }*/
+
+
+        for (ProcessRecrutement process : allProcesses) {
+            Map<Skill, SkillLevel> processSkills = process.getSkills();
+            if (processSkills != null) {
+                for (Skill skill : processSkills.keySet()) {
+                    skillCounts.put(skill, skillCounts.get(skill) + 1);
+                }
+            }
+        }
+
+
+        int totalProcesses = allProcesses.size();
+        Map<Skill, Double> skillPercentages = new HashMap<>();
+        for (Skill skill : skillCounts.keySet()) {
+            double percentage = (double) skillCounts.get(skill) / totalProcesses * 100;
+            skillPercentages.put(skill, percentage);
+        }
+
+        return skillPercentages;
+    }
+
+
+}
+
 
 

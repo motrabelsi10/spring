@@ -3,9 +3,12 @@ package tn.esprit.espritgather.service;
 import tn.esprit.espritgather.entity.ProcessRecrutement;
 import tn.esprit.espritgather.entity.Publication;
 import tn.esprit.espritgather.entity.Recrutement;
+import tn.esprit.espritgather.enumeration.Skill;
 import tn.esprit.espritgather.repo.ProcessNotFoundException;
+import tn.esprit.espritgather.repo.ProcessRecrutementRepository;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IProcessRecrutementService {
     public List<ProcessRecrutement> retrieveAllProcesses();
@@ -17,8 +20,10 @@ public interface IProcessRecrutementService {
     public boolean compareSkillsAndApprove(Recrutement recrutement, ProcessRecrutement process);
     public void approveProcess(Long idProcessRecrutement) throws ProcessNotFoundException;
     //void createProcessRecrutement(ProcessRecrutement processRecrutement);
+    public Long countApprovedProcesses();
+    public Long countNonApprovedProcesses();
 
-    // Nouvelle méthode pour décrémenter le nombre de postes vacants
-  //  void decrementVacancies(Long idRecrutement);
+    public Map<Skill, Double> calculateSkillSelectionPercentageIncludingUnapproved();
+
 }
 
