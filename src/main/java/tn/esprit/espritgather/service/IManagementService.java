@@ -14,4 +14,5 @@ public interface IManagementService {
     public Management AddClassroomsAcoordinally(Management management);
     Management addManagementAdmin(Management c);
     public List<Event> getOverlappingEvents(Management management);
+    public List<Management> getSimilarManagementClass(Management management, String bloc, String c);
 }

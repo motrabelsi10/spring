@@ -38,20 +38,33 @@ IManagementService managementService;
     }
 
 
+
     // http://localhost:8089/espritgather/management/retrieve-management/8
     @GetMapping("/retrieve-management/{management-id}")
     public Management retrievemanagement(@PathVariable("management-id") Long chId) {
         return managementService.retrieveManagement(chId);
     }
+    // http://localhost:8089/espritgather/management/getSimilarManagementClass/1/A/amphi
+    @GetMapping("/getSimilarManagementClass/{management-id}/{bloc}/{class}")
+    public List<Management> getSimilarManagementClass(@PathVariable("management-id") Long chId,@PathVariable("bloc") String bloc,@PathVariable("class") String c) {
+        Management man = new Management();
+        man = managementService.retrieveManagement(chId);
+        return managementService.getSimilarManagementClass(man,bloc, c);
+    }
 
+    // http://localhost:8089/espritgather/management/AddClassroomsAcoordinally
+    @PostMapping("/AddClassroomsAcoordinally")
+    public Management AddClassroomsAcoordinally(@RequestBody Management c) {
+        System.out.println(c.getIdManagement());
+        System.out.println(c.getClasse());
+        return managementService.AddClassroomsAcoordinally(c);
+    }
 
     // http://localhost:8089/espritgather/management/add-management
     @PostMapping("/add-management")
     public Management addManagement(@RequestBody Management c) {
         return managementService.addManagement(c);
     }
-
-
 
     // http://localhost:8089/espritgather/management/remove-management/{management-id}
     @DeleteMapping("/remove-management/{management-id}")
@@ -60,7 +73,7 @@ IManagementService managementService;
     }
 
     // http://localhost:8089/espritgather/management/add-management-admin
-    @PutMapping("/add-management-admin")
+    @PostMapping("/add-management-admin")
     public Management addManagementAdmin(@RequestBody Management c) {
         return managementService.addManagementAdmin(c);
     }
