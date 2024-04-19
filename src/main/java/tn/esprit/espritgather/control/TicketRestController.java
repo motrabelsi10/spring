@@ -18,12 +18,15 @@ import java.util.Map;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.espritgather.entity.Event;
 import tn.esprit.espritgather.entity.Ticket;
+import tn.esprit.espritgather.entity.User;
 import tn.esprit.espritgather.service.IEventService;
 import tn.esprit.espritgather.service.ITicketService;
+import tn.esprit.espritgather.service.IUserService;
 
 import java.util.List;
 
@@ -36,6 +39,7 @@ import java.util.List;
 public class TicketRestController {
     ITicketService ticketService;
     IEventService eventService;
+    IUserService userService;
     // http://localhost:8089/espritgather/ticket/retrieve-all-tickets
     @Operation(description = "récupérer toutes les tickets de la base de données")
     @GetMapping("/retrieve-all-tickets")
@@ -75,8 +79,21 @@ public class TicketRestController {
         Event event = eventService.retrieveEvent(eventId);
         byte[] qrCode = generateQRCode(ticket.getIdTicket());
         ticket.setQrCode(qrCode);
+        ticket.setEvent(event);
+        Ticket addedTicket = ticketService.addTicket(ticket);
+        return addedTicket;
+    }
 
 
+
+    @PostMapping("/add-ticket-by-event-user/{user-id}/{event-id}")
+    public Ticket addTicketByEventAndUser(@PathVariable("user-id") Long userId,@RequestBody Ticket ticket, @PathVariable("event-id") Long eventId) {
+        Event event = eventService.retrieveEvent(eventId);
+        User user = userService.retrieveUser(userId);
+
+        ticket.setUser(user);
+        byte[] qrCode = generateQRCode(ticket.getIdTicket());
+        ticket.setQrCode(qrCode);
         ticket.setEvent(event);
         Ticket addedTicket = ticketService.addTicket(ticket);
         return addedTicket;

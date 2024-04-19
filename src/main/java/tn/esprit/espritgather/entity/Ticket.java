@@ -27,6 +27,7 @@ public class Ticket {
     private byte[] qrCode;
 
     @ManyToOne
+    @JoinColumn(name = "user")
     private User user;
 
 

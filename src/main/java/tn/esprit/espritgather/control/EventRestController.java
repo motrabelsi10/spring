@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.espritgather.entity.Event;
 import tn.esprit.espritgather.entity.Ticket;
+import tn.esprit.espritgather.entity.User;
 import tn.esprit.espritgather.enumeration.TypeTicket;
 import tn.esprit.espritgather.repo.TicketRepository;
 import tn.esprit.espritgather.service.IEventService;
@@ -39,6 +40,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import org.springframework.core.io.FileSystemResource;
+import tn.esprit.espritgather.service.IUserService;
 
 
 @Tag(name = "Gestion Event")
@@ -50,6 +52,7 @@ public class EventRestController {
     IEventService eventService;
     ITicketService ticketService;
     TicketRepository ticketRepository;
+    IUserService userService;
 
     public static String uploadDirectory = "C:/Users/Admin/angular/src/assets/images/";
 
@@ -73,6 +76,23 @@ public class EventRestController {
     public ResponseEntity<Event> addEvent(@ModelAttribute Event event, @RequestParam("imageFile") MultipartFile imageFile) {
         try {
             Event savedEvent = eventService.saveEvent(event, imageFile);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedEvent);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+    @PostMapping("/add-event/{user-id}")
+    public ResponseEntity<Event> addEventByUser(@PathVariable("user-id") Long userId, @ModelAttribute Event event, @RequestParam("imageFile") MultipartFile imageFile) {
+        try {
+            User user = userService.retrieveUser(userId);
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+            event.setUser(user);
+            Event savedEvent = eventService.saveEvent(event, imageFile);
+
             return ResponseEntity.status(HttpStatus.CREATED).body(savedEvent);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

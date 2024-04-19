@@ -26,13 +26,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<Event> events;
 
 
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<Ticket> tickets;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Feedback> feedbacks;

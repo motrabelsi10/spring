@@ -37,10 +37,8 @@ public class Event {
     private TypeTicket typeticket;
 
 
-
-
-
     @ManyToOne
+    @JoinColumn(name = "user")
     private User user;
 
     @JsonIgnore
