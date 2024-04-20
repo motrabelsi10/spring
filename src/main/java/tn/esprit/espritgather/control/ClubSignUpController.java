@@ -4,47 +4,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.espritgather.dto.SignupRequest;
 import tn.esprit.espritgather.enumeration.Role;
 import tn.esprit.espritgather.service.AuthService;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 @CrossOrigin(origins = "http://localhost:4200")
 
 @RestController
-@RequestMapping("/signup")
-public class SignupController {
-
-
+@RequestMapping("/signup/club")
+public class ClubSignUpController {
     private final AuthService authService ;
-@Autowired
-    public SignupController(AuthService authService) {
 
-    this.authService = authService;
+    public ClubSignUpController(AuthService authService) {
+        this.authService = authService;
     }
+
     @PostMapping
     public ResponseEntity<String> signupUser(@RequestBody SignupRequest signupRequest)  {
-        signupRequest.setRole(Role.user);
+        signupRequest.setRole(Role.club);
 
         boolean isUserCreated = authService.createUser(signupRequest);
         if (isUserCreated) {
 
 
-
             return ResponseEntity.status(HttpStatus.CREATED).body("{\"message\": \"User created successfully\"}");
-         } else {
+        } else {
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"message\": \"Failed to create user\"}");
-         }
-
         }
-
-
-
 
     }
 
+}

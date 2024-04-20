@@ -3,6 +3,7 @@ package tn.esprit.espritgather.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import tn.esprit.espritgather.enumeration.ClubTypes;
 import tn.esprit.espritgather.enumeration.Role;
 
 import java.util.Date;
@@ -27,8 +28,44 @@ private Role role;
 @NotNull(message = "TelNumber is required")
 
 private String telNumber;
-private Date birthDay;
-private String address;
+
+    private Date birthDay;
+
+
+
+    private String address;
+    private String clubDetails ;
+    private String clubName ;
+
+    public String getClubDetails() {
+        return clubDetails;
+    }
+
+    public void setClubDetails(String clubDetails) {
+        this.clubDetails = clubDetails;
+    }
+
+    public String getClubName() {
+        return clubName;
+    }
+
+    public void setClubName(String clubName) {
+        this.clubName = clubName;
+    }
+
+    private ClubTypes clubTypes ;
+
+
+
+
+
+    public ClubTypes getClubTypes() {
+        return clubTypes;
+    }
+
+    public void setClubTypes(ClubTypes clubTypes) {
+        this.clubTypes = clubTypes;
+    }
 
     public String getAddress() {
         return address;
