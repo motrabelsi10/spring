@@ -36,7 +36,11 @@ IManagementService managementService;
         List <Event> managements = managementService.getOverlappingEvents(m);
         return managements ;
     }
-
+    // http://localhost:8089/espritgather/management/getManagementByEvent/8
+    @GetMapping("/getManagementByEvent/{event-id}")
+    public Long getManagementByEvent(@PathVariable("event-id") Long chId) {
+        return managementService.getManagementByEvent(chId);
+    }
 
 
     // http://localhost:8089/espritgather/management/retrieve-management/8
@@ -53,7 +57,7 @@ IManagementService managementService;
     }
 
     // http://localhost:8089/espritgather/management/AddClassroomsAcoordinally
-    @PostMapping("/AddClassroomsAcoordinally")
+    @PutMapping("/AddClassroomsAcoordinally")
     public Management AddClassroomsAcoordinally(@RequestBody Management c) {
         System.out.println(c.getIdManagement());
         System.out.println(c.getClasse());

@@ -20,6 +20,28 @@ public class IManagementServiceImpl implements IManagementService {
         return managementRepository.findAll();
     }
 
+    @Transactional
+    @Override
+    public Long getManagementByEvent(Long idv) {
+        String sql ="SELECT id_management FROM `management` WHERE management.event_id_event ="+idv+";";
+        Object result = entityManager.createNativeQuery(sql).getSingleResult();
+
+        if (result != null) {
+            // Convert the result to the appropriate type (int or String)
+            if (result instanceof Long) {
+                return ((Long) result).longValue();
+            } else if (result instanceof String) {
+                return (Long) result;
+            } else {
+                // Handle unsupported result type
+                throw new IllegalStateException("Unexpected result type: " + result.getClass().getName());
+            }
+        } else {
+            // Handle the case where there are no results
+            return null;
+        }
+    }
+
     @Override
     public Management retrieveManagement(Long idManagement) {
         return managementRepository.findById(idManagement).get();
@@ -79,24 +101,33 @@ public class IManagementServiceImpl implements IManagementService {
         return management;
     }
 
-    @Transactional
+
+
+   @Transactional
     @Override
     public Management AddClassroomsAcoordinally(Management m) {
         Management management = retrieveManagement(m.getIdManagement());
-        management.setBloc(m.getBloc());
-        management.setClasse(m.getClasse());
-        List<Event> listevent = null;
+
+        List<Event> listevent = getOverlappingEvents (m);
        List<Management> list= getSimilarManagementClass(management, m.getBloc().toString(),m.getClasse().toString());
-       if (!list.isEmpty()){
-       listevent =  getOverlappingEvents (m);
-       }
-       if (listevent.isEmpty() ){
-           String sql ="UPDATE `management` SET `bloc`='"+management.getBloc()+"',`classe`='"+management.getClasse()+"' WHERE `id_management`='"+management.getIdManagement()+"'  ";
+       if (list.isEmpty()){listevent.clear();}
+        System.out.println(list.size());
+        System.out.println(listevent.size());
+        System.out.println(listevent.isEmpty());
+
+        if (listevent.isEmpty()&& list.isEmpty()){
+           System.out.println("kaed yodkhol bel ghalet ll ham");
+           String sql ="UPDATE `management` SET `bloc`='"+m.getBloc()+"',`classe`='"+m.getClasse()+"' WHERE `id_management`='"+management.getIdManagement()+"'  ";
            entityManager.createNativeQuery(sql).executeUpdate();
            return management;
-       }{
+       }else{
+
+            System.out.println("yekhdem b shih");
+            String sql ="UPDATE `management` SET `bloc`='"+management.getBloc()+"',`classe`='"+management.getClasse()+"' WHERE `id_management`='"+management.getIdManagement()+"'  ";
+            entityManager.createNativeQuery(sql).executeUpdate();
             Management m1= new Management();
             m1.setDetails("erreur");
+            System.out.println("m1 fel lokhra:"+m1.getDetails());
            return m1;
         }
 

@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface IManagementService {
     public List<Management> retrieveAllManagement();
+    public Long getManagementByEvent(Long idv);
     public Management retrieveManagement(Long idManagement);
     public Management addManagement(Management management);
     public void removeManagement(Long idManagement);

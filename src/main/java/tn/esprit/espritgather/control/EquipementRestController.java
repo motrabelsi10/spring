@@ -25,6 +25,7 @@ public class EquipementRestController {
         List <Equipement> equipements = equipementService.retrieveAllEquipments();
         return equipements ;
     }
+    
 
 
     // http://localhost:8089/espritgather/equipement/retrieve-equipement/8

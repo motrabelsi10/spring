@@ -31,6 +31,8 @@ public class IEquipementServiceImpl implements IEquipementService{
         return entityManager.createNativeQuery(sql).getResultList();
     }
 
+
+
     @Override
     public float getPriceByEvent(long id) {
      /*   String sql ="SELECT SUM(price) AS total_price FROM equipement WHERE event_id_event="+id+";";
