@@ -1,5 +1,6 @@
 package tn.esprit.espritgather.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import jakarta.persistence.*;
 import java.util.Date;
@@ -17,12 +18,10 @@ public class Volunteer {
 
     private Boolean approuvement;
 
-    @ManyToMany(mappedBy="volunteers", cascade = CascadeType.ALL)
-    private Set<Task> tasks;
-
-    @ManyToMany(mappedBy="volunteers", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "volunteers", cascade = CascadeType.ALL)
+    //@JsonIgnore // Optional if you want to ignore this field during JSON serialization
     private Set<User> users;
 
-
-
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Task> tasks;
 }

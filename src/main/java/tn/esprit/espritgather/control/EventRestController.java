@@ -58,8 +58,10 @@ public class EventRestController {
 
 
     // http://localhost:8089/espritgather/event/retrieve-all-events
+
    @Operation(description = "récupérer toutes les event de la base de données")
     @GetMapping("/retrieve-all-events")
+
     public List<Event> getevents() {
         List<Event> listEvents = eventService.retrieveAllEvents();
         return listEvents;

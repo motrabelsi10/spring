@@ -54,5 +54,5 @@ public class Event {
     @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
     private Set<Publication> publications;
 
-
 }
+
