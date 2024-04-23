@@ -41,18 +41,8 @@ public class Event {
     @JoinColumn(name = "user")
     private User user;
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
-    private Set<Feedback> feedbacks;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
-    private Set<Task> tasks;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
-    private Set<Equipement> equipements;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
-    private Set<Publication> publications;
+
+
 
 }
 

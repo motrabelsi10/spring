@@ -1,10 +1,12 @@
 package tn.esprit.espritgather.entity;
 
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import tn.esprit.espritgather.enumeration.ClubTypes;
+
 
 import tn.esprit.espritgather.enumeration.Role;
 
@@ -69,13 +71,14 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Publication> publications;
 
+
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Interaction> interactions;
-
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Volunteer> volunteers;
-
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Recrutement> recrutements;
   /*  @ManyToMany(cascade = CascadeType.ALL)

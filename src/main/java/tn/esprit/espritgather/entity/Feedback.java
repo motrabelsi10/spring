@@ -2,6 +2,8 @@ package tn.esprit.espritgather.entity;
 
 import lombok.*;
 import jakarta.persistence.*;
+import tn.esprit.espritgather.enumeration.Note;
+import tn.esprit.espritgather.enumeration.ServiceType;
 
 import java.util.Date;
 
@@ -18,7 +20,11 @@ public class Feedback {
 
     private String title;
     private String body;
-    private Boolean note;
+    @Enumerated(EnumType.STRING)
+    private Note note;
+    @Enumerated(EnumType.STRING)
+    private ServiceType serviceType;
+    private Date datevu;
     private Date dateFeedback;
 
     @ManyToOne
