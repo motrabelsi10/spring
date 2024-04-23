@@ -72,6 +72,9 @@ public class User {
 
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Recrutement> recrutements;
+  /*  @ManyToMany(cascade = CascadeType.ALL)
+    private Set<ProcessRecrutement> processes;
+*/
 
 
 
