@@ -42,7 +42,10 @@ public class Event {
     private User user;
 
 
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
+    private Set<Task> tasks;
+
 
 
 }
-

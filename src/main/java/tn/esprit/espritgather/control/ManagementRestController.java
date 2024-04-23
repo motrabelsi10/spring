@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import tn.esprit.espritgather.entity.Event;
 import tn.esprit.espritgather.entity.Feedback;
 import tn.esprit.espritgather.entity.Management;
+import tn.esprit.espritgather.entity.Ticket;
 import tn.esprit.espritgather.service.IManagementService;
 
 import java.util.List;
@@ -39,8 +40,13 @@ IManagementService managementService;
     // http://localhost:8089/espritgather/management/getManagementByEvent/8
     @GetMapping("/getManagementByEvent/{event-id}")
     public Long getManagementByEvent(@PathVariable("event-id") Long chId) {
-        return managementService.getManagementByEvent(chId);
+        Management management = managementService.retrieveManagementByEvent(chId);
+        return  management==null?0:management.getIdManagement();
     }
+
+
+
+
 
 
     // http://localhost:8089/espritgather/management/retrieve-management/8

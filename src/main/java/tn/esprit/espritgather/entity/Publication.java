@@ -1,6 +1,5 @@
 package tn.esprit.espritgather.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import jakarta.persistence.*;
 import java.util.Date;
@@ -19,12 +18,14 @@ public class Publication {
     private String body;
     private Date datePublication;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="publication")
-    private Set<Interaction> interactions;
-    //@JsonIgnore
+
     @ManyToOne
+    @JoinColumn(name = "event")
     private Event event;
-    //@JsonIgnore
+
+
+
     @ManyToOne
+    @JoinColumn(name = "user")
     private User user;
 }

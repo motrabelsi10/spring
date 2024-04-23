@@ -14,6 +14,8 @@ public interface ITicketService {
     public Ticket modifyTicket(Ticket ticket);
     List<Ticket> retrieveTicketsByEvent(Long eventId);
 
+    List<Ticket> retrieveTicketsByEventAndUser(Long eventId,Long userId);
+
     Map<String, Long> getTotalTicketsByDateAchat();
 
     Map<String, Long> findTotalTicketsByTypeAchat();

@@ -1,10 +1,11 @@
 package tn.esprit.espritgather.enumeration;
 
 public enum SkillLevel {
-    NONE,
+    NONE ,
     BASIC,
     INTERMEDIATE,
-    ADVANCED;
+    ADVANCED
+
 
 
 }

@@ -28,9 +28,11 @@ public class Feedback {
     private Date dateFeedback;
 
     @ManyToOne
+    @JoinColumn(name = "user")
     private User user;
 
     @ManyToOne
+    @JoinColumn(name = "event")
     private Event event;
 
 }

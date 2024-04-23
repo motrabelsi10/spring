@@ -25,7 +25,9 @@ public class Management {
 
     @Enumerated(EnumType.STRING)
     private Classe classe;
+
     @OneToOne
+    @JoinColumn(name = "event")
     private Event event;
 
 

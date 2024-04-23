@@ -1,10 +1,10 @@
 package tn.esprit.espritgather.service;
-import org.apache.velocity.exception.ResourceNotFoundException;
 import tn.esprit.espritgather.entity.Recrutement;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.espritgather.entity.ProcessRecrutement;
+import tn.esprit.espritgather.entity.Ticket;
 import tn.esprit.espritgather.enumeration.Skill;
 import tn.esprit.espritgather.enumeration.SkillLevel;
 import tn.esprit.espritgather.repo.ProcessNotFoundException;
@@ -39,6 +39,10 @@ public class ProcessRecrutementIServiceImpl implements IProcessRecrutementServic
         processRecrutementRepository.deleteById(idProcessRecrutement);
     }
 
+    public List<ProcessRecrutement> retrieveProcesssByRecAndUser(Long recId, Long userId) {
+        return processRecrutementRepository.findProcessRecrutementByRecrutementIdRecrutementAndUserIdUser(recId,userId);
+    }
+
     public ProcessRecrutement modifyProcess(ProcessRecrutement process) {
         return processRecrutementRepository.save(process);
     }
@@ -48,40 +52,41 @@ public class ProcessRecrutementIServiceImpl implements IProcessRecrutementServic
     }
     @Override
     public boolean compareSkillsAndApprove(Recrutement recrutement, ProcessRecrutement process) {
-        // Compare skills and set approval status
         Map<Skill, SkillLevel> recruitmentSkills = recrutement.getRequiredSkills();
-        Map<Skill, SkillLevel> processSkills = process.getSkills(); // Assuming getSkills exists
+        Map<Skill, SkillLevel> processSkills = process.getSkills();
 
-        // Check if both have required skills
         if (recruitmentSkills == null || processSkills == null) {
-            // Handle missing skills scenario (optional)
+            process.setApproved(false);
+            processRecrutementRepository.save(process);
             return false;
         }
 
-        // Iterate through each skill in recruitment
+        int totalSkills = recruitmentSkills.size();
+        int matchedSkills = 0;
+
         for (Map.Entry<Skill, SkillLevel> entry : recruitmentSkills.entrySet()) {
             Skill skillName = entry.getKey();
             SkillLevel requiredLevel = entry.getValue();
 
-            // Check if skill exists in process and level matches (or allows flexibility)
-            if (!processSkills.containsKey(skillName) ||
-                    !matchSkillLevel(requiredLevel, processSkills.get(skillName))) {
-                // If skill doesn't exist in process or level doesn't match, return false
-                process.setApproved(false); // Set approval status to false
-                processRecrutementRepository.save(process); // Save the process with approval status
-                return false;
+            if (processSkills.containsKey(skillName)) {
+                SkillLevel actualLevel = processSkills.get(skillName);
+                if (matchSkillLevel(requiredLevel, actualLevel)) {
+                    matchedSkills++;
+                }
             }
         }
 
-        // All required skills matched
-        process.setApproved(true); // Set approval status to true
-        processRecrutementRepository.save(process); // Save the process with approval status
-        return true;
-    }
+        // Calculate matching percentage
+        double matchPercentage = (double) matchedSkills / totalSkills * 100;
 
-    private boolean matchSkillLevel(SkillLevel requiredLevel, SkillLevel actualLevel) {
+        // Determine approval status based on matching percentage
+        if (matchPercentage >= 50){
+            process.setApproved(true);
+            processRecrutementRepository.save(process);
+             return true;
+        }
 
-        return requiredLevel == actualLevel;
+        return false;
     }
 
     public void approveProcess(Long processId) throws ProcessNotFoundException {
@@ -98,13 +103,26 @@ public class ProcessRecrutementIServiceImpl implements IProcessRecrutementServic
             } else {
                 recrutementRepository.save(process);
             }
-        }
-}   public Long countApprovedProcesses() {
+
+        }recrutementRepository.save(process);
+    }
+
+
+    private boolean matchSkillLevel(SkillLevel requiredLevel, SkillLevel actualLevel) {
+
+        return requiredLevel == actualLevel;
+    }
+    public Long countApprovedProcesses() {
         return processRecrutementRepository.countByApproved(true);
     }
 
     public Long countNonApprovedProcesses() {
         return processRecrutementRepository.countByApproved(false);
+    }
+
+    @Override
+    public void insertSkillsForProcess(Long processId, Map<Skill, SkillLevel> skillsToAdd) {
+
     }
 
 
@@ -140,6 +158,3 @@ public class ProcessRecrutementIServiceImpl implements IProcessRecrutementServic
 
 
 }
-
-
-

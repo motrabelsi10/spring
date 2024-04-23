@@ -41,6 +41,11 @@ public class TicketServiceImpl implements ITicketService {
         return ticketRepository.findTicketsByEventIdEvent(eventId);
     }
 
+
+    public List<Ticket> retrieveTicketsByEventAndUser(Long eventId, Long userId) {
+        return ticketRepository.findTicketsByEventIdEventAndUserIdUser(eventId,userId);
+    }
+
     public Map<String, Long> getTotalTicketsByDateAchat() {
         List<Object[]> results = ticketRepository.findTotalTicketsByDateAchat();
         Map<String, Long> totalTicketsByDate = new HashMap<>();

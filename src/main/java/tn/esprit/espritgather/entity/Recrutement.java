@@ -25,16 +25,20 @@ public class Recrutement {
     private Date dateFinish;
 
     private int niveau;
-    @ElementCollection
     @Enumerated(EnumType.STRING)
+    @ElementCollection
+
+
+    @MapKeyJoinColumn(name = "skillName")
+    @Column(name = "level")
     private Map<Skill, SkillLevel> requiredSkills;
-    @ManyToMany(mappedBy="recrutements", cascade = CascadeType.ALL)
-    private Set<User> users;
 
 
-    public void setRecrutement(Recrutement recrutement) {
+    @ManyToOne
+    @JoinColumn(name = "user")
+    private User user;
 
-    }
+
 
 
 }

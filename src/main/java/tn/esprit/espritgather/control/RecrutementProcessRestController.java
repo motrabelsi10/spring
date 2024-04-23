@@ -5,8 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.espritgather.entity.ProcessRecrutement;
-import tn.esprit.espritgather.entity.Recrutement;
+import tn.esprit.espritgather.entity.*;
 import tn.esprit.espritgather.enumeration.Skill;
 import tn.esprit.espritgather.enumeration.SkillLevel;
 import tn.esprit.espritgather.service.IRecrutementService;
@@ -19,6 +18,7 @@ import java.util.*;
 
 import tn.esprit.espritgather.entity.Recrutement;
 import tn.esprit.espritgather.service.IProcessRecrutementService;
+import tn.esprit.espritgather.service.IUserService;
 
 import java.util.List;
 
@@ -31,6 +31,7 @@ import java.util.List;
 public class RecrutementProcessRestController {
     IProcessRecrutementService processService;
     IRecrutementService recrutementService;
+    IUserService userService;
 
     // http://localhost:8089/espritgather/process/retrieve-all-processes
     @Operation(description = "récupérer toutes les process de la base de données")
@@ -65,10 +66,10 @@ public class RecrutementProcessRestController {
         return process;
     }
     @GetMapping("/retrieve-processes-by-recrutement/{recrutement-id}")
-        public List<ProcessRecrutement> retrieveProcessesByRecrutement(@PathVariable("recrutement-id") Long idRecrutement) {
-            List<ProcessRecrutement> processes = processService.retrieveProcessesByRecrutement(idRecrutement);
-            return processes;
-        }
+    public List<ProcessRecrutement> retrieveProcessesByRecrutement(@PathVariable("recrutement-id") Long idRecrutement) {
+        List<ProcessRecrutement> processes = processService.retrieveProcessesByRecrutement(idRecrutement);
+        return processes;
+    }
 
     @PostMapping("/add-process-by-recrutement/{recrutement-id}")
     public ProcessRecrutement addProcessByRecrutement(@RequestBody ProcessRecrutement process, @PathVariable("recrutement-id") Long idRecrutement) {
@@ -81,20 +82,39 @@ public class RecrutementProcessRestController {
 
         return addedProcess;
     }
-        @GetMapping("/approved")
-        public Long getApprovedProcessCount() {
-            return processService.countApprovedProcesses();
-        }
+    @GetMapping("/approved")
+    public Long getApprovedProcessCount() {
+        return processService.countApprovedProcesses();
+    }
 
-        @GetMapping("/non-approved")
-        public Long getNonApprovedProcessCount() {
-            return processService.countNonApprovedProcesses();
-        }
+    @GetMapping("/non-approved")
+    public Long getNonApprovedProcessCount() {
+        return processService.countNonApprovedProcesses();
+    }
 
-     @GetMapping("/skill-selection-percentage")
-     public ResponseEntity<Map<Skill, Double>> getSkillSelectionPercentage() {
-         Map<Skill, Double> skillPercentages = processService.calculateSkillSelectionPercentageIncludingUnapproved();
-         return ResponseEntity.ok(skillPercentages);
-     }
+    @GetMapping("/skill-selection-percentage")
+    public ResponseEntity<Map<Skill, Double>> getSkillSelectionPercentage() {
+        Map<Skill, Double> skillPercentages = processService.calculateSkillSelectionPercentageIncludingUnapproved();
+        return ResponseEntity.ok(skillPercentages);
+    }
+
+
+    @PostMapping("/add-process-by-rec-user/{user-id}/{rec-id}")
+    public ProcessRecrutement addTicketByEventAndUser(@PathVariable("user-id") Long userId, @RequestBody ProcessRecrutement pr, @PathVariable("rec-id") Long recId) {
+        Recrutement r = recrutementService.retrieveRecrutement(recId);
+        User user = userService.retrieveUser(userId);
+
+        pr.setUser(user);
+
+        pr.setRecrutement(r);
+        ProcessRecrutement a = processService.addProcess(pr);
+        return a;
+    }
+
+    @GetMapping("/retrieve-process-by-rec-and-user/{user-id}/{rec-id}")
+    public List<ProcessRecrutement> retrieveTicketsByEventAndUser(@PathVariable("user-id") Long recId,@PathVariable("rec-id") Long userId) {
+        List<ProcessRecrutement> a = processService.retrieveProcesssByRecAndUser(userId,recId);
+        return a;
+    }
 
 }

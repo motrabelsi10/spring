@@ -10,6 +10,8 @@ public interface EventRepository extends JpaRepository<Event,Long> {
 
     List<Event> findEventsByNameEvent(String name);
 
+    List<Event> findEventsByUserIdUser(long id);
+
 
     // JPQL
     @Query("SELECT e FROM Event e WHERE e.nameEvent =:name")

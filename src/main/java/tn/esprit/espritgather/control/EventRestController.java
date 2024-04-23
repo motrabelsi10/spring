@@ -54,18 +54,18 @@ public class EventRestController {
     TicketRepository ticketRepository;
     IUserService userService;
 
-    public static String uploadDirectory = "C:/Users/Admin/angular/src/assets/images/";
+    //public static String uploadDirectory = "C:/Users/Admin/angular/src/assets/images/";
+    public static String uploadDirectory = "C:/Users/ameni/OneDrive/Bureau/angular/src/assets/images/";
 
 
     // http://localhost:8089/espritgather/event/retrieve-all-events
-
    @Operation(description = "récupérer toutes les event de la base de données")
     @GetMapping("/retrieve-all-events")
-
     public List<Event> getevents() {
         List<Event> listEvents = eventService.retrieveAllEvents();
         return listEvents;
     }
+
     // http://localhost:8089/espritgather/event/retrieve-event/8
     @GetMapping("/retrieve-event/{event-id}")
     public Event retrieveevent(@PathVariable("event-id") Long chId) {
@@ -86,19 +86,19 @@ public class EventRestController {
 
 
     @PostMapping("/add-event/{user-id}")
-    public ResponseEntity<Event> addEventByUser(@PathVariable("user-id") Long userId, @ModelAttribute Event event, @RequestParam("imageFile") MultipartFile imageFile) {
-        try {
+    public Event addEventByUser(@PathVariable("user-id") Long userId, @ModelAttribute Event event, @RequestParam("imageFile") MultipartFile imageFile) throws IOException {
+
             User user = userService.retrieveUser(userId);
-            if (user == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
             event.setUser(user);
             Event savedEvent = eventService.saveEvent(event, imageFile);
+            return  savedEvent;
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedEvent);
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    }
+
+    @GetMapping("/retrieve-events-by-user/{user-id}")
+    public List<Event> retrieveEventsByUser(@PathVariable("user-id") Long userId) {
+        List<Event> events = eventService.retrieveEventsByUser(userId);
+        return events;
     }
 
 

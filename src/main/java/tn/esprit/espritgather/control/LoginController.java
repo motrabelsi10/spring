@@ -47,4 +47,10 @@ public class LoginController {
 
       return ResponseEntity.ok(new LoginRespone(jwt));
      }
+
+     @PutMapping("/forget-password")
+    public ResponseEntity<?> forgetPassword(@RequestParam String mail){
+    return new ResponseEntity<>(loginService.forgetPassword(mail),HttpStatus.OK);
+     }
+
 }

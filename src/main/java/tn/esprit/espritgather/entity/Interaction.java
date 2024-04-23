@@ -1,6 +1,5 @@
 package tn.esprit.espritgather.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import jakarta.persistence.*;
 
@@ -20,12 +19,13 @@ public class Interaction {
     private Boolean liked;
     private Boolean dislike;
 
-    @JsonIgnore
+
     @ManyToOne
+    @JoinColumn(name = "publications")
     private Publication publication;
 
-    //@JsonIgnore
     @ManyToOne
+    @JoinColumn(name = "user")
     private User user;
 
 

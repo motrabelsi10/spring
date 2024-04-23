@@ -33,9 +33,16 @@ public class ProcessRecrutement {
     @Column(name = "level")
 
     private Map<Skill, SkillLevel> skills;
+
+
     @ManyToOne
     @JoinColumn(name = "recrutement")
     private Recrutement recrutement;
+
+    @ManyToOne
+    @JoinColumn(name = "user")
+    private User user;
+
 
 
 
@@ -43,7 +50,7 @@ public class ProcessRecrutement {
         if (skills != null) {
             return Collections.unmodifiableMap(skills);
         } else {
-            return Collections.emptyMap(); // Return an empty map if skills is null
+            return Collections.emptyMap();
         }
     }
 
@@ -52,13 +59,11 @@ public class ProcessRecrutement {
             this.getRecrutement().setNiveau(this.getRecrutement().getNiveau() - 1);
             // ... logic to potentially delete recruitment (consider transactions)
         }
-
-
     }
     public boolean getApproved() {
         return approved;
     }
-}
 
+}
 
 

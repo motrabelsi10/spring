@@ -12,6 +12,9 @@ public interface TicketRepository  extends JpaRepository<Ticket,Long> {
 
     List<Ticket> findTicketsByEventIdEvent(Long eventId);
 
+    List<Ticket> findTicketsByEventIdEventAndUserIdUser(Long eventId,Long userId);
+
+
 
 
     @Query("SELECT t.dateAchat, SUM(t.nbts) FROM Ticket t GROUP BY t.dateAchat")

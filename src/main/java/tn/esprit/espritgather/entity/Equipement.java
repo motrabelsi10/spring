@@ -31,6 +31,9 @@ public class Equipement {
     private float price;
     private Boolean approuvement;
     private Date datemeeting;
+
     @ManyToOne
+    @JoinColumn(name = "event")
     private Event event;
+
 }

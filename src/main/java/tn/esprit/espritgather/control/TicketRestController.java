@@ -124,6 +124,12 @@ public class TicketRestController {
         return tickets;
     }
 
+    @GetMapping("/retrieve-tickets-by-event-and-user/{user-id}/{event-id}")
+    public List<Ticket> retrieveTicketsByEventAndUser(@PathVariable("event-id") Long eventId,@PathVariable("user-id") Long userId) {
+        List<Ticket> tickets = ticketService.retrieveTicketsByEventAndUser(eventId,userId);
+        return tickets;
+    }
+
     @GetMapping("/total-tickets-by-date")
     public ResponseEntity<Map<String, Long>> getTotalTicketsByDateAchat() {
         Map<String, Long> totalTicketsByDate = ticketService.getTotalTicketsByDateAchat();

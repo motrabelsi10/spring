@@ -19,6 +19,8 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 
+import static tn.esprit.espritgather.control.SignupController.uploadDirectory;
+
 @Service
 public class AuthServiceImpl implements AuthService {
 
@@ -29,33 +31,45 @@ public class AuthServiceImpl implements AuthService {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
+/*
     @Override
     public boolean createUser(SignupRequest signupRequest)  {
-
-
-        //Check if User exists
-
         User user = new User();
-        //hedhi fi blasset el user.setmail(signurequest.getmail())
         BeanUtils.copyProperties(signupRequest,user);
-        //
-
-
-        // hash the password before saving
         String hashPassword = passwordEncoder.encode(signupRequest.getPassword());
         user.setPassword(hashPassword);
         User createdUser = userRepository.save(user);
-        // UserRepository.save(user);
-
-
         return true;
+    }
+*/
+    public boolean createUser(SignupRequest signupRequest,MultipartFile imageFile) throws IOException {
 
+        User user = new User();
+        if (!imageFile.isEmpty()) {
+            String fileName = saveImage(imageFile);
+            user.setImagePath(fileName);
+        }
+        BeanUtils.copyProperties(signupRequest,user);
+        String hashPassword = passwordEncoder.encode(signupRequest.getPassword());
+        user.setPassword(hashPassword);
+        User createdUser = userRepository.save(user);
+        return true;
+    }
 
+    private String saveImage(MultipartFile imageFile) throws IOException {
+        String fileName = UUID.randomUUID().toString() + "-" + imageFile.getOriginalFilename();
+        String filePath = uploadDirectory + File.separator + fileName;
+        byte[] bytes = imageFile.getBytes();
+        Path path = Paths.get(filePath);
+        Files.write(path, bytes);
+        return fileName;
     }
 
 
-   
+
+
+
+
 
 
 

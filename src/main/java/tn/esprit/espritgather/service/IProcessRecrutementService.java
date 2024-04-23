@@ -1,11 +1,11 @@
 package tn.esprit.espritgather.service;
 
 import tn.esprit.espritgather.entity.ProcessRecrutement;
-import tn.esprit.espritgather.entity.Publication;
 import tn.esprit.espritgather.entity.Recrutement;
+import tn.esprit.espritgather.entity.Ticket;
 import tn.esprit.espritgather.enumeration.Skill;
+import tn.esprit.espritgather.enumeration.SkillLevel;
 import tn.esprit.espritgather.repo.ProcessNotFoundException;
-import tn.esprit.espritgather.repo.ProcessRecrutementRepository;
 
 import java.util.List;
 import java.util.Map;
@@ -22,8 +22,12 @@ public interface IProcessRecrutementService {
     //void createProcessRecrutement(ProcessRecrutement processRecrutement);
     public Long countApprovedProcesses();
     public Long countNonApprovedProcesses();
+    public void insertSkillsForProcess(Long processId, Map<Skill, SkillLevel> skillsToAdd) ;
 
     public Map<Skill, Double> calculateSkillSelectionPercentageIncludingUnapproved();
+
+    List<ProcessRecrutement> retrieveProcesssByRecAndUser(Long recId, Long userId);
+
 
 }
 

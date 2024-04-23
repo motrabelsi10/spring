@@ -3,6 +3,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.espritgather.entity.Event;
+import tn.esprit.espritgather.entity.Ticket;
 import tn.esprit.espritgather.repo.EventRepository;
 
 import java.io.File;
@@ -39,6 +40,10 @@ public class EventServiceImpl implements IEventService {
             event.setImagePath(fileName);
         }
         return eventRepository.save(event);
+    }
+
+    public List<Event> retrieveEventsByUser(Long userId) {
+        return eventRepository.findEventsByUserIdUser(userId);
     }
 
 

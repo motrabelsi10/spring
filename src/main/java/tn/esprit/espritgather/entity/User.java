@@ -1,13 +1,9 @@
 package tn.esprit.espritgather.entity;
-
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import tn.esprit.espritgather.enumeration.ClubTypes;
-
-
 import tn.esprit.espritgather.enumeration.Role;
 
 import lombok.*;
@@ -42,6 +38,9 @@ public class User {
     private String telNumber;
     @NotEmpty(message = "Password cannot be empty")
 
+    private String imagePath;
+
+
     private String password;
     private Boolean approuvement = false ;
     @Enumerated(EnumType.STRING)
@@ -49,7 +48,6 @@ public class User {
 
     private Role role;
     @NotNull(message = "ClubDetails cannot be empty")
-
 
     private String clubDetails ;
     @NotNull(message = "ClubName cannot be empty")
@@ -64,28 +62,13 @@ public class User {
 
 
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<Feedback> feedbacks;
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<Publication> publications;
-
-
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<Interaction> interactions;
-    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Volunteer> volunteers;
-    @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL)
-    private Set<Recrutement> recrutements;
-  /*  @ManyToMany(cascade = CascadeType.ALL)
-    private Set<ProcessRecrutement> processes;
-*/
+
+
 
 
 
 
 }
+

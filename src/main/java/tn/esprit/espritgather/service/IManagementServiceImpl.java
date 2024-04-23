@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.espritgather.entity.Event;
 import tn.esprit.espritgather.entity.Management;
+import tn.esprit.espritgather.entity.Ticket;
 import tn.esprit.espritgather.repo.ManagementRepository;
 
 import java.util.List;
@@ -23,7 +24,8 @@ public class IManagementServiceImpl implements IManagementService {
     @Transactional
     @Override
     public Long getManagementByEvent(Long idv) {
-        String sql ="SELECT id_management FROM `management` WHERE management.event_id_event ="+idv+";";
+        //String sql ="SELECT id_management FROM `management` WHERE management.event_id_event ="+idv+";";
+        String sql ="SELECT id_management FROM `management` WHERE management.event ="+idv+";";
         Object result = entityManager.createNativeQuery(sql).getSingleResult();
 
         if (result != null) {
@@ -40,6 +42,10 @@ public class IManagementServiceImpl implements IManagementService {
             // Handle the case where there are no results
             return null;
         }
+    }
+
+    public Management retrieveManagementByEvent(Long eventId) {
+        return managementRepository.findManagementByEventIdEvent(eventId);
     }
 
     @Override
@@ -123,8 +129,8 @@ public class IManagementServiceImpl implements IManagementService {
        }else{
 
             System.out.println("yekhdem b shih");
-            String sql ="UPDATE `management` SET `bloc`='"+management.getBloc()+"',`classe`='"+management.getClasse()+"' WHERE `id_management`='"+management.getIdManagement()+"'  ";
-            entityManager.createNativeQuery(sql).executeUpdate();
+          //  String sql ="UPDATE `management` SET `bloc`='"+management.getBloc()+"',`classe`='"+management.getClasse()+"' WHERE `id_management`='"+management.getIdManagement()+"'  ";
+        //    entityManager.createNativeQuery(sql).executeUpdate();
             Management m1= new Management();
             m1.setDetails("erreur");
             System.out.println("m1 fel lokhra:"+m1.getDetails());

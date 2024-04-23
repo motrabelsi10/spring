@@ -21,16 +21,19 @@ public class SignupController {
 
 
     private final AuthService authService ;
-@Autowired
+    //public static String uploadDirectory = "C:/Users/Admin/angular/src/assets/images/";
+    public static String uploadDirectory = "C:/Users/ameni/OneDrive/Bureau/angular/src/assets/images/";
+
+    @Autowired
     public SignupController(AuthService authService) {
 
     this.authService = authService;
     }
     @PostMapping
-    public ResponseEntity<String> signupUser(@RequestBody SignupRequest signupRequest)  {
+    public ResponseEntity<String> signupUser(SignupRequest signupRequest, @RequestParam("imageFile") MultipartFile imageFile) throws IOException {
         signupRequest.setRole(Role.user);
 
-        boolean isUserCreated = authService.createUser(signupRequest);
+        boolean isUserCreated = authService.createUser(signupRequest,imageFile);
         if (isUserCreated) {
 
 

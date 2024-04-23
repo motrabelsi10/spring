@@ -8,10 +8,13 @@ import org.springframework.stereotype.Service;
 import tn.esprit.espritgather.entity.User;
 import tn.esprit.espritgather.repo.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 
 @Service
 public class LoginServiceImpl implements UserDetailsService {
+
+    @Autowired
   private final UserRepository userRepository ;
 
   @Autowired
@@ -27,4 +30,13 @@ public class LoginServiceImpl implements UserDetailsService {
 
 
     }
+
+    public String forgetPassword(String mail) {
+        User user = userRepository.findBymail(mail)
+                .orElseThrow(() -> new UsernameNotFoundException("Email not found" + mail));
+        return user.getPassword();
+    }
+
+
 }
+

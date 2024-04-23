@@ -2,6 +2,7 @@ package tn.esprit.espritgather.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import tn.esprit.espritgather.entity.Event;
 import tn.esprit.espritgather.entity.Recrutement;
 
 import tn.esprit.espritgather.repo.RecrutementRepository;
@@ -24,5 +25,11 @@ public class RecrutementServiceImpl implements IRecrutementService{
     public Recrutement modifyRecrutement(Recrutement recrutement) {
         return recrutementRepository.save(recrutement);
     }
+
+
+    public List<Recrutement> retrieverecsByUser(Long userId) {
+        return recrutementRepository.findRecrutementByUserIdUser(userId);
+    }
+
 
 }
