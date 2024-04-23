@@ -55,13 +55,8 @@ public class User {
 
     private ClubTypes clubTypes;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<Event> events;
 
 
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-    private Set<Ticket> tickets;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
     private Set<Feedback> feedbacks;
