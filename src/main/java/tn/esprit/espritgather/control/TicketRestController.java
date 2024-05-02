@@ -34,7 +34,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/ticket")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 
 public class TicketRestController {
     ITicketService ticketService;
@@ -84,6 +84,11 @@ public class TicketRestController {
         return addedTicket;
     }
 
+    @GetMapping("/totalNbtsByEventType/{user-id}")
+    public Map<String, Long> getTotalNbtsByEventType(@PathVariable("user-id") Long userId) {
+        return ticketService.getTotalNbtsByEventType(userId);
+    }
+
 
 
     @PostMapping("/add-ticket-by-event-user/{user-id}/{event-id}")
@@ -124,6 +129,12 @@ public class TicketRestController {
         return tickets;
     }
 
+    @GetMapping("/retrieve-tickets-by-event-and-user/{user-id}/{event-id}")
+    public List<Ticket> retrieveTicketsByEventAndUser(@PathVariable("event-id") Long eventId,@PathVariable("user-id") Long userId) {
+        List<Ticket> tickets = ticketService.retrieveTicketsByEventAndUser(eventId,userId);
+        return tickets;
+    }
+
     @GetMapping("/total-tickets-by-date")
     public ResponseEntity<Map<String, Long>> getTotalTicketsByDateAchat() {
         Map<String, Long> totalTicketsByDate = ticketService.getTotalTicketsByDateAchat();
@@ -142,11 +153,20 @@ public class TicketRestController {
         return ResponseEntity.ok(totalPricesByEvent);
     }
 
+    @GetMapping("/totalPricesByEvent/{userId}")
+    public ResponseEntity<Map<String, Double>> findTotalPricesByEvent(@PathVariable("userId") Long userId) {
+        Map<String, Double> totalPricesByEvent = ticketService.findTotalPricesByEventUser(userId);
+        return ResponseEntity.ok(totalPricesByEvent);
+    }
 
 
 
 
-        public static byte[] generateQRCode(Long ticketId) {
+
+
+
+
+    public static byte[] generateQRCode(Long ticketId) {
             try {
                 // Créer un objet contenant uniquement les attributs idTicket et nbTs
                 ObjectMapper objectMapper = new ObjectMapper();

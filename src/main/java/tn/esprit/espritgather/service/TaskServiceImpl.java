@@ -4,11 +4,14 @@ import org.springframework.stereotype.Service;
 import tn.esprit.espritgather.entity.Event;
 import tn.esprit.espritgather.entity.Task;
 import tn.esprit.espritgather.entity.User;
+import tn.esprit.espritgather.enumeration.EventSkill;
 import tn.esprit.espritgather.repo.EventRepository;
 import tn.esprit.espritgather.repo.TaskRepository;
 import tn.esprit.espritgather.repo.UserRepository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -43,9 +46,10 @@ public class TaskServiceImpl implements ITaskService {
     @Override
     public Task createTask(Task task, Long eventId) {
         // Retrieve the event from the database
-        Event event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new RuntimeException("Event not found with id: " + eventId));
-
+       /* Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new RuntimeException("Event not found with id: " + eventId));*/
+        Event event = new Event();
+        event.setIdEvent(eventId);
         // Set the task's event
         task.setEvent(event);
         return taskRepository.save(task);
@@ -61,6 +65,16 @@ public class TaskServiceImpl implements ITaskService {
     public User retrieveUser(Long userId) {
         return userRepository.findByIdUser(userId);
 
+    }
+
+    public Map<EventSkill, Integer> countSkillOccurrences(List<Task> tasks) {
+        Map<EventSkill, Integer> skillCounts = new HashMap<>();
+        for (Task task : tasks) {
+            for (EventSkill skill : task.getSkills()) {
+                skillCounts.put(skill, skillCounts.getOrDefault(skill, 0) + 1);
+            }
+        }
+        return skillCounts;
     }
 
 

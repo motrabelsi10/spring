@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Type;
+import tn.esprit.espritgather.enumeration.ClubTypes;
 import tn.esprit.espritgather.enumeration.TypeTicket;
 import org.hibernate.annotations.Type;
 
@@ -26,6 +27,10 @@ public class Event {
     private Date dateFinish;
     private String place;
     private String imagePath;
+    @Enumerated(EnumType.STRING)
+
+    private ClubTypes typeEvent;
+    private boolean archive;
 
     private double price;
 
@@ -41,17 +46,9 @@ public class Event {
     @JoinColumn(name = "user")
     private User user;
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
-    private Set<Feedback> feedbacks;
 
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
-    private Set<Equipement> equipements;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="event")
-    private Set<Publication> publications;
+
 
 
 }

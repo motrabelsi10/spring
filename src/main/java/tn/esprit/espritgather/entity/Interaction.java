@@ -19,10 +19,13 @@ public class Interaction {
     private Boolean liked;
     private Boolean dislike;
 
+
     @ManyToOne
+    @JoinColumn(name = "publications")
     private Publication publication;
 
     @ManyToOne
+    @JoinColumn(name = "user")
     private User user;
 
 

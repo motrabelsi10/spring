@@ -14,12 +14,13 @@ public interface IVolunteerService {
 
     Volunteer createVolunteer(Volunteer volunteer, Long taskId, Long userId);
 
-
+    public List<Volunteer> findVolunteerByTask_Event_IdEvent(Long idTask);
     List<Volunteer> retrieveVolunteersByUser(User user);
 
     List<Volunteer> retrieveVolunteersByTask(Task task);
 
     List<Volunteer> getAllVolunteersOrderedBySkills();
+    List<Volunteer> findVolunteerByUser_IdUserAndTask_IdTask(Long user,Long task);
 
     List<Volunteer> getAllVolunteersOrderedBySkillsbyTask(Long idTask);
 

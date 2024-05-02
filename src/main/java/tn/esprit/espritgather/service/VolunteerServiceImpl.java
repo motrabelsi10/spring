@@ -27,6 +27,8 @@ public class VolunteerServiceImpl implements IVolunteerService {
     public Volunteer addVolunteer(Volunteer c) {
         return volunteerRepository.save(c);
     }
+    public List<Volunteer> findVolunteerByTask_Event_IdEvent(Long idTask){
+        return volunteerRepository.findVolunteerByTask_Event_IdEvent(idTask);}
     public void removeVolunteer(Long volunteerId) {
         volunteerRepository.deleteById(volunteerId);
     }
@@ -38,7 +40,7 @@ public class VolunteerServiceImpl implements IVolunteerService {
         return volunteerRepository.findVolunteerByTask_IdTask(idTask);}
 
 
-//////////////////////////////////////////////
+    //////////////////////////////////////////////
     @Override
     public Volunteer createVolunteer(Volunteer volunteer, Long taskId, Long userId) {
         Task task = taskRepository.findById(taskId)
@@ -60,6 +62,11 @@ public class VolunteerServiceImpl implements IVolunteerService {
     @Override
     public List<Volunteer> retrieveVolunteersByTask(Task task) {
         return volunteerRepository.findVolunteerByTask(task);
+    }
+
+    @Override
+    public List<Volunteer> findVolunteerByUser_IdUserAndTask_IdTask(Long user,Long task) {
+        return volunteerRepository.findVolunteerByUser_IdUserAndTask_IdTask(user,task);
     }
 
 
@@ -88,7 +95,7 @@ public class VolunteerServiceImpl implements IVolunteerService {
         return volunteers;
     }
 
-//////////////////////////hathi trateb tab+/////////////////////////////
+    //////////////////////////hathi trateb tab+/////////////////////////////
     @Override
     public List<Volunteer> getAllVolunteersOrderedBySkillsbyTask(Long idTask) {
         // Retrieve all volunteers
@@ -139,7 +146,7 @@ public class VolunteerServiceImpl implements IVolunteerService {
 
         }
         volunteers = volunteerRepository.findVolunteerByTask_IdTask(taskId);
-       //nombre de volontaires approuvés
+        //nombre de volontaires approuvés
         int numberVolunteersApproved = (int) volunteers.stream()
                 .filter(Volunteer::isApprouvement)
                 .count();

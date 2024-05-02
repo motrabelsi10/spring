@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import tn.esprit.espritgather.entity.Task;
 import tn.esprit.espritgather.entity.User;
 import tn.esprit.espritgather.service.ITaskService;
+import tn.esprit.espritgather.service.IUserService;
 import tn.esprit.espritgather.service.IVolunteerService;
 import tn.esprit.espritgather.entity.Volunteer;
 
@@ -21,6 +22,7 @@ import java.util.List;
 public class VolunteerRestController {
     IVolunteerService volunteerService;
     ITaskService taskService;
+    IUserService userService;
 
     // http://localhost:8089/espritgather/volunteer/retrieve-all-volunteers
     @Operation(description = "récupérer toutes les volunteer de la base de données")
@@ -68,12 +70,14 @@ public class VolunteerRestController {
     //////////////////////////////////////////
 
     /////////// http://localhost:8089/volunteer/create-volunteer/1////////////////////////////////////////
-    @PostMapping("/create-volunteer/{taskId}")
-    public Volunteer createVolunteer(@RequestBody Volunteer volunteer, @PathVariable("taskId") Long taskId) {
+    @PostMapping("/create-volunteer/{taskId}/{userId}")
+    public Volunteer createVolunteer(@RequestBody Volunteer volunteer, @PathVariable("taskId") Long taskId,@PathVariable("userId") Long userId) {
         //////////////id user conecte b spring sercuity (getUserAuthentication)//////////////
         //User user = getUserAuth()
         //Long userId = user.id
-        Long userId = 1L;
+        User user = userService.retrieveUser(userId);
+
+        userId = user.getIdUser();
 
         return volunteerService.createVolunteer(volunteer, taskId, userId);
     }
@@ -101,7 +105,7 @@ public class VolunteerRestController {
     public List<Volunteer> getAllVolunteersOrderedBySkills() {
         return volunteerService.getAllVolunteersOrderedBySkills();
     }
-//////////////////////hiya eli trateb////////////////////////////////
+    //////////////////////hiya eli trateb////////////////////////////////
     // http://localhost:8089/volunteer/get-all-volunteers-ordered-by-skills-by-task/1
     @GetMapping("/get-all-volunteers-ordered-by-skills-by-task/{idTask}")
     public List<Volunteer> getAllVolunteersOrderedBySkillsbyTask(@PathVariable("idTask") Long idTask) {
@@ -121,6 +125,17 @@ public class VolunteerRestController {
     @GetMapping("/retrieve-number-volunteers/{taskId}")
     public int retrieveNumberVolunteersByIdTask(@PathVariable Long taskId) {
         return volunteerService.retrieveNumberVolunteersByIdTask(taskId);
+    }
+
+    @GetMapping("/retrieve-vol-user/{userId}/{taskId}")
+    public List findVolunteerByTaskAndUser(@PathVariable Long userId,@PathVariable Long taskId) {
+        return volunteerService.findVolunteerByUser_IdUserAndTask_IdTask(userId,taskId);
+    }
+
+
+    @GetMapping("/retrievevolunteersbyevent/{eventId}")
+    public List<Volunteer> findVolunteerByTask_Event_IdEvent(@PathVariable Long eventId) {
+        return volunteerService.findVolunteerByTask_Event_IdEvent(eventId);
     }
 
 }

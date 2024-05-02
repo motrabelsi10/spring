@@ -27,11 +27,14 @@ public class Volunteer {
     private AvailabilityVolunteer availabilityVolunteer;
 
 
-    @ManyToOne
-    private Task task;
 
     @ManyToOne
+    @JoinColumn(name = "user")
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "task")
+    private Task task;
 
     @ElementCollection
     private Set<EventSkill> skills;
@@ -41,4 +44,3 @@ public class Volunteer {
         return approuvement;
     }
 }
-

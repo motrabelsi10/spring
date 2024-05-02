@@ -1,7 +1,9 @@
 package tn.esprit.espritgather.service;
 
+import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import tn.esprit.espritgather.entity.Interaction;
 import tn.esprit.espritgather.entity.Ticket;
 import tn.esprit.espritgather.repo.TicketRepository;
 
@@ -41,6 +43,14 @@ public class TicketServiceImpl implements ITicketService {
         return ticketRepository.findTicketsByEventIdEvent(eventId);
     }
 
+
+
+
+
+    public List<Ticket> retrieveTicketsByEventAndUser(Long eventId, Long userId) {
+        return ticketRepository.findTicketsByEventIdEventAndUserIdUser(eventId,userId);
+    }
+
     public Map<String, Long> getTotalTicketsByDateAchat() {
         List<Object[]> results = ticketRepository.findTotalTicketsByDateAchat();
         Map<String, Long> totalTicketsByDate = new HashMap<>();
@@ -62,6 +72,27 @@ public class TicketServiceImpl implements ITicketService {
                         obj -> Long.valueOf(String.valueOf(obj[1]))
                 ));
     }
+    public Map<String, Long> getTotalNbtsByEventType(Long userId) {
+        List<Object[]> results = ticketRepository.findTotalNbtsByEventType(userId);
+        return results.stream()
+                .collect(Collectors.toMap(
+                        obj -> String.valueOf(obj[0]),
+                        obj -> Long.valueOf(String.valueOf(obj[1]))
+                ));
+    }
+
+    public Map<String, Double> findTotalPricesByEventUser(Long userId) {
+        List<Object[]> results = ticketRepository.findTotalPricesByEventWithUserId(userId);
+        Map<String, Double> totalPricesByEvent = new HashMap<>();
+        for (Object[] result : results) {
+            String eventId = String.valueOf(result[0]);
+            Double totalPrice = (Double) result[1];
+            totalPricesByEvent.put(eventId, totalPrice);
+        }
+        return totalPricesByEvent;
+    }
+
+
 
     public Map<String, Double> findTotalPricesByEvent() {
         List<Object[]> results = ticketRepository.findTotalPricesByEvent();

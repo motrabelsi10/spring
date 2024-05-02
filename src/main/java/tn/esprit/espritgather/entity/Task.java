@@ -24,8 +24,8 @@ public class Task {
     private String details;
     private int numberVolunteer;
 
-
     @ManyToOne
+    @JoinColumn(name = "event")
     private Event event;
 
     @ElementCollection

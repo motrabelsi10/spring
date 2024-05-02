@@ -18,12 +18,14 @@ public class Publication {
     private String body;
     private Date datePublication;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="publication")
-    private Set<Interaction> interactions;
 
     @ManyToOne
+    @JoinColumn(name = "event")
     private Event event;
 
+
+
     @ManyToOne
+    @JoinColumn(name = "user")
     private User user;
 }
