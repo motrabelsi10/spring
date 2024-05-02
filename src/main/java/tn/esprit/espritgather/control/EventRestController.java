@@ -104,10 +104,11 @@ public class EventRestController {
 
     @PostMapping("/add-event/{user-id}")
     public Event addEventByUser(@PathVariable("user-id") Long userId, @ModelAttribute Event event, @RequestParam("imageFile") MultipartFile imageFile) throws IOException {
+        System.out.println("################################");
         User user = userService.retrieveUser(userId);
         event.setUser(user);
         String imagePath = cloudinaryService.uploadImage(imageFile);
-
+        System.out.println(event.getDateStart());
         Event savedEvent = eventService.saveEvent(event, imagePath);
         return savedEvent;
     }
