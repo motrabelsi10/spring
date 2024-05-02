@@ -5,6 +5,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import java.time.LocalDate;
+
 import nonapi.io.github.classgraph.fileslice.reader.ClassfileReader;
 import org.slf4j.Logger;
 import org.springframework.core.io.FileSystemResource;
@@ -18,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import tn.esprit.espritgather.config.CloudinaryService;
 import tn.esprit.espritgather.entity.Event;
 import tn.esprit.espritgather.entity.Ticket;
 import tn.esprit.espritgather.entity.User;
@@ -35,6 +38,7 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermission;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -53,8 +57,9 @@ public class EventRestController {
     ITicketService ticketService;
     TicketRepository ticketRepository;
     IUserService userService;
+    CloudinaryService cloudinaryService;
 
-    //public static String uploadDirectory = "C:/Users/Admin/angular/src/assets/images/";
+    // public static String uploadDirectory = "C:/Users/Admin/angular/src/assets/images/";
     public static String uploadDirectory = "C:/Users/ameni/OneDrive/Bureau/angular/src/assets/images/";
 
 
@@ -77,7 +82,9 @@ public class EventRestController {
     @PostMapping("/add-event")
     public ResponseEntity<Event> addEvent(@ModelAttribute Event event, @RequestParam("imageFile") MultipartFile imageFile) {
         try {
-            Event savedEvent = eventService.saveEvent(event, imageFile);
+            String imagePath = cloudinaryService.uploadImage(imageFile);
+
+            Event savedEvent = eventService.saveEvent(event,imagePath);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedEvent);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -85,21 +92,35 @@ public class EventRestController {
     }
 
 
+    @GetMapping("/preferences/{userId}")
+    public List<Event> findEventsByPreferences(@PathVariable Long userId) {
+        return eventService.findEventsByPreferences(userId);
+    }
+
+    @GetMapping("/preferences/please/{userId}")
+    public List<Event> findEventsOrderByTotalNbts(@PathVariable Long userId) {
+        return eventService.findEventsOrderByTotalNbts(userId);
+    }
+
     @PostMapping("/add-event/{user-id}")
     public Event addEventByUser(@PathVariable("user-id") Long userId, @ModelAttribute Event event, @RequestParam("imageFile") MultipartFile imageFile) throws IOException {
+        User user = userService.retrieveUser(userId);
+        event.setUser(user);
+        String imagePath = cloudinaryService.uploadImage(imageFile);
 
-            User user = userService.retrieveUser(userId);
-            event.setUser(user);
-            Event savedEvent = eventService.saveEvent(event, imageFile);
-            return  savedEvent;
-
+        Event savedEvent = eventService.saveEvent(event, imagePath);
+        return savedEvent;
     }
+
 
     @GetMapping("/retrieve-events-by-user/{user-id}")
     public List<Event> retrieveEventsByUser(@PathVariable("user-id") Long userId) {
+        eventService.updateEventArchive();
+
         List<Event> events = eventService.retrieveEventsByUser(userId);
         return events;
     }
+
 
 
 
@@ -115,6 +136,8 @@ public class EventRestController {
     // http://localhost:8089/espritgather/event/modify-event
     @PutMapping("/modify-event")
     public Event modifyevent(@RequestBody Event c) {
+        c.setArchive(false);
+
         Event event = eventService.modifyEvent(c);
         return event;
     }

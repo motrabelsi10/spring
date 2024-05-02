@@ -1,21 +1,24 @@
 package tn.esprit.espritgather.service;
 
 import jakarta.persistence.EntityManager;
-import jdk.swing.interop.SwingInterOpUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.espritgather.entity.Event;
 import tn.esprit.espritgather.entity.Management;
 import tn.esprit.espritgather.entity.Ticket;
+import tn.esprit.espritgather.repo.EventRepository;
 import tn.esprit.espritgather.repo.ManagementRepository;
 
-import java.util.List;
+import java.util.*;
+
 @Service
 @AllArgsConstructor
 public class IManagementServiceImpl implements IManagementService {
     EntityManager entityManager;
     ManagementRepository managementRepository;
+    EventRepository eventRepository;
+    ISmsService smsService;
     @Override
     public List<Management> retrieveAllManagement() {
         return managementRepository.findAll();
@@ -43,6 +46,27 @@ public class IManagementServiceImpl implements IManagementService {
             return null;
         }
     }
+
+    @Override
+    public Map<String, Double> getManagementStatistics() {
+
+        List<Object[]> results = managementRepository.calculateManagementCounts();
+        for (Object[] result : results) {
+            System.out.println(Arrays.toString(result));
+            System.out.println(result.length);
+        }
+        List<Management> man = retrieveAllManagement();
+        System.out.println(man.size());
+        Map<String, Double> totalPricesByEvent = new HashMap<>();
+        for (Object[] result : results) {
+            String eventId = String.valueOf(result[0])+"-"+String.valueOf(result[1]);
+            Long totalCount = (Long) result[2]*100/man.size();
+            Double totalPrice = totalCount.doubleValue();
+            totalPricesByEvent.put(eventId, totalPrice);
+        }
+        return totalPricesByEvent;
+    }
+
 
     public Management retrieveManagementByEvent(Long eventId) {
         return managementRepository.findManagementByEventIdEvent(eventId);
@@ -121,10 +145,13 @@ public class IManagementServiceImpl implements IManagementService {
         System.out.println(listevent.size());
         System.out.println(listevent.isEmpty());
 
-        if (listevent.isEmpty()&& list.isEmpty()){
+        if ((listevent.isEmpty()&& list.isEmpty())||(listevent.isEmpty())){
            System.out.println("kaed yodkhol bel ghalet ll ham");
            String sql ="UPDATE `management` SET `bloc`='"+m.getBloc()+"',`classe`='"+m.getClasse()+"' WHERE `id_management`='"+management.getIdManagement()+"'  ";
            entityManager.createNativeQuery(sql).executeUpdate();
+smsService.sendSms("+216"+management.getEvent().getUser().getTelNumber(), "+13343098198","Your request for a classroom was successfully approved. Your class is at bloc: "+m.getBloc() + " at the class number :"+m.getClasse());
+
+
            return management;
        }else{
 

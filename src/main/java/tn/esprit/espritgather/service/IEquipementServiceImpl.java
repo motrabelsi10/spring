@@ -5,9 +5,13 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.espritgather.entity.Equipement;
+import tn.esprit.espritgather.enumeration.Equip;
+import tn.esprit.espritgather.enumeration.Metric;
 import tn.esprit.espritgather.repo.EquipementRepository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -25,6 +29,31 @@ public class IEquipementServiceImpl implements IEquipementService{
         String sql ="SELECT * FROM `equipement` WHERE event = "+id+";";
         return  entityManager.createNativeQuery(sql).getResultList();
     }
+    @Override
+    public Map<String, Double> getEquipmentStatistics(Metric metric, Equip equip ) {
+         List<Object[]> results =equipementRepository.calculateEquipmentStatistics(metric,equip);
+        Map<String, Double> totalPricesByEvent = new HashMap<>();
+        for (Object[] result : results) {
+            String eventId = String.valueOf(result[0]);
+            Double totalPrice = (Double) result[1];
+            totalPricesByEvent.put(eventId, totalPrice);
+        }
+        return totalPricesByEvent;
+    }
+
+    @Override
+    public Map<String, Double>  calculateEquipmentStatistics() {
+
+        List<Object[]> results = equipementRepository.calculateEquipmentStatistics();
+        Map<String, Double> totalPricesByEvent = new HashMap<>();
+        for (Object[] result : results) {
+            String eventId = String.valueOf(result[0]);
+            Double totalPrice = (Double) result[1];
+            totalPricesByEvent.put(eventId, totalPrice);
+        }
+        return totalPricesByEvent;
+    }
+
 
     @Override
     public List<Equipement> retrieveEquipementByClub(long id) {

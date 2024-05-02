@@ -84,6 +84,11 @@ public class TicketRestController {
         return addedTicket;
     }
 
+    @GetMapping("/totalNbtsByEventType/{user-id}")
+    public Map<String, Long> getTotalNbtsByEventType(@PathVariable("user-id") Long userId) {
+        return ticketService.getTotalNbtsByEventType(userId);
+    }
+
 
 
     @PostMapping("/add-ticket-by-event-user/{user-id}/{event-id}")
@@ -148,11 +153,20 @@ public class TicketRestController {
         return ResponseEntity.ok(totalPricesByEvent);
     }
 
+    @GetMapping("/totalPricesByEvent/{userId}")
+    public ResponseEntity<Map<String, Double>> findTotalPricesByEvent(@PathVariable("userId") Long userId) {
+        Map<String, Double> totalPricesByEvent = ticketService.findTotalPricesByEventUser(userId);
+        return ResponseEntity.ok(totalPricesByEvent);
+    }
 
 
 
 
-        public static byte[] generateQRCode(Long ticketId) {
+
+
+
+
+    public static byte[] generateQRCode(Long ticketId) {
             try {
                 // Créer un objet contenant uniquement les attributs idTicket et nbTs
                 ObjectMapper objectMapper = new ObjectMapper();

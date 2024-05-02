@@ -16,17 +16,20 @@ public interface IEventService {
     public void removeEvent(Long idEvent);
 
     public Event modifyEvent(Event event);
+    public void updateEventArchive();
+
+    List<Event> findEventsByPreferences(Long userId);
+    public List<Event> findEventsOrderByTotalNbts(Long userId);
 
     public List<Event> retrieveEventByNameEvent(String name);
 
     List<Event> retrieveEventsByUser(Long userId);
 
 
-
     public List<Event> findAllEventsOrderedByPriceAsc();
     public List<Event> findAllEventsOrderedByNbt();
 
-    public Event saveEvent(Event event, MultipartFile imageFile) throws IOException;
+    public Event saveEvent(Event event, String imageFile) throws IOException;
 
 
 

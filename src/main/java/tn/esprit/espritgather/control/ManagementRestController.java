@@ -3,14 +3,18 @@ package tn.esprit.espritgather.control;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.espritgather.entity.Event;
 import tn.esprit.espritgather.entity.Feedback;
 import tn.esprit.espritgather.entity.Management;
 import tn.esprit.espritgather.entity.Ticket;
+import tn.esprit.espritgather.enumeration.Equip;
+import tn.esprit.espritgather.enumeration.Metric;
 import tn.esprit.espritgather.service.IManagementService;
 
 import java.util.List;
+import java.util.Map;
 
 @Tag(name = "Gestion management")
 @RestController
@@ -45,7 +49,11 @@ IManagementService managementService;
     }
 
 
-
+    @GetMapping("/statistics")
+    public ResponseEntity<Map<String, Double>> getManagementStatistics() {
+        Map<String, Double> statistics = managementService.getManagementStatistics();
+        return ResponseEntity.ok(statistics);
+    }
 
 
 

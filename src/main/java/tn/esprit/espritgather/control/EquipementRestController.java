@@ -3,11 +3,15 @@ package tn.esprit.espritgather.control;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import tn.esprit.espritgather.enumeration.Equip;
+import tn.esprit.espritgather.enumeration.Metric;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.espritgather.entity.Equipement;
 import tn.esprit.espritgather.service.IEquipementService;
 
 import java.util.List;
+import java.util.Map;
 
 @Tag(name = "Gestion equipement")
 @RestController
@@ -24,6 +28,22 @@ public class EquipementRestController {
     public List<Equipement> getEquipements() {
         List <Equipement> equipements = equipementService.retrieveAllEquipments();
         return equipements ;
+    }
+
+    // http://localhost:8089/espritgather/equipement/statistics
+    @GetMapping("/statistics")
+    public ResponseEntity<Map<String, Double>> calculateEquipmentStatistics()
+    {
+        Map<String, Double> statistics = equipementService.calculateEquipmentStatistics();
+        return ResponseEntity.ok(statistics);
+    }
+
+    @GetMapping("/statistics-metricOnly")
+    public ResponseEntity<Map<String, Double>> getEquipmentStatistics(
+            @RequestParam(required = false) Metric metric,
+            @RequestParam(required = false) Equip equip) {
+        Map<String, Double> statistics = equipementService.getEquipmentStatistics(metric, equip);
+        return ResponseEntity.ok(statistics);
     }
     
 

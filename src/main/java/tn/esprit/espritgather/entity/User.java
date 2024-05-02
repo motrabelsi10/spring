@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import tn.esprit.espritgather.enumeration.ClubTypes;
+import tn.esprit.espritgather.enumeration.NiveauEtude;
 import tn.esprit.espritgather.enumeration.Role;
 
 import lombok.*;
@@ -55,15 +56,26 @@ public class User {
     private String clubName;
 
     @Enumerated(EnumType.STRING)
-
     private ClubTypes clubTypes;
 
+    @Enumerated(EnumType.STRING)
+    private NiveauEtude niveau;
+
+    private Date dateCreation;
+
+    @Column(nullable = true)
+    private String passwordResetToken;
+
+    @PrePersist
+    protected void onCreate() {
+        dateCreation = new Date();
+    }
 
 
 
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    private Set<Volunteer> volunteers;
+
+
 
 
 

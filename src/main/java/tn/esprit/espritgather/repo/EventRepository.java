@@ -13,6 +13,23 @@ public interface EventRepository extends JpaRepository<Event,Long> {
     List<Event> findEventsByUserIdUser(long id);
 
 
+
+
+    @Query("SELECT e FROM Event e WHERE e.typeEvent IN " +
+            "(SELECT t.event.typeEvent FROM Ticket t WHERE t.user.idUser = :userId " +
+            "GROUP BY t.event.typeEvent ORDER BY SUM(t.nbts) DESC)")
+    List<Event> findEventsByPreferences(@Param("userId") Long userId);
+
+
+
+
+
+
+
+
+
+
+
     // JPQL
     @Query("SELECT e FROM Event e WHERE e.nameEvent =:name")
     List<Event> retrieveEventsByNameEvent(@Param("name") String name);
@@ -22,4 +39,13 @@ public interface EventRepository extends JpaRepository<Event,Long> {
 
     @Query("SELECT e FROM Event e ORDER BY e.nbt ASC")
     List<Event> findAllEventsOrderedByNbt();
+
+
+
+
+
+
+
+
+
 }

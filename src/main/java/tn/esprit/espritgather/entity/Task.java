@@ -2,6 +2,7 @@ package tn.esprit.espritgather.entity;
 
 import lombok.*;
 import jakarta.persistence.*;
+import tn.esprit.espritgather.enumeration.EventSkill;
 
 import java.util.Date;
 import java.util.Set;
@@ -16,19 +17,19 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idTask;
+    private String nameTask;
     private Boolean approuvement;
     private Date taskStart;
     private Date taskFinish;
     private String details;
     private int numberVolunteer;
+
     @ManyToOne
+    @JoinColumn(name = "event")
     private Event event;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    private Set<Volunteer> volunteers;
-
-
-
+    @ElementCollection
+    private Set<EventSkill> skills;
 
 
 
