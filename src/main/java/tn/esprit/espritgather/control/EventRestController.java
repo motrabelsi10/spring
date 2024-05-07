@@ -104,12 +104,14 @@ public class EventRestController {
 
     @PostMapping("/add-event/{user-id}")
     public Event addEventByUser(@PathVariable("user-id") Long userId, @ModelAttribute Event event, @RequestParam("imageFile") MultipartFile imageFile) throws IOException {
-        System.out.println("################################");
         User user = userService.retrieveUser(userId);
         event.setUser(user);
+        System.out.println("Date Start received: " + event.getDateStart());
+        System.out.println("Date Finish received: " + event.getDateFinish());
         String imagePath = cloudinaryService.uploadImage(imageFile);
-        System.out.println(event.getDateStart());
         Event savedEvent = eventService.saveEvent(event, imagePath);
+        System.out.println("Date Start received: " + event.getDateStart());
+        System.out.println("Date Finish received: " + event.getDateFinish());
         return savedEvent;
     }
 

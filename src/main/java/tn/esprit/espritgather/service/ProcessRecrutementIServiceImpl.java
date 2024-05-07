@@ -66,6 +66,7 @@ public class ProcessRecrutementIServiceImpl implements IProcessRecrutementServic
         return processRecrutementRepository.countByApproved(false);
     }
 
+    @Override
     public boolean compareSkillsAndApprove(Recrutement recrutement, ProcessRecrutement process) {
         Set<Skill> recruitmentSkills = recrutement.getRequiredSkills();
         Set<Skill> processSkills = process.getSkills();
@@ -82,13 +83,12 @@ public class ProcessRecrutementIServiceImpl implements IProcessRecrutementServic
         double compatibilityPercentage = ((double) commonSkillsCount / recruitmentSkills.size()) * 100;
 
         if (compatibilityPercentage >= 50) {
-            process.setApproved(true);
+            return true;
         } else {
-            process.setApproved(false);
+            return false;
         }
 
 
-        return process.isApproved();
     }
 
 
@@ -127,17 +127,22 @@ public class ProcessRecrutementIServiceImpl implements IProcessRecrutementServic
 
         Recrutement recrutement = process.getRecrutement();
 
-        if (!process.isApproved()) {
-            process.setApproved(true);
+        if (process.isApproved()==true && recrutement.getNiveau() > 0) {
+
+
+
+            int niveau = recrutement.getNiveau();
+            if (niveau > 0) {
+                recrutement.setNiveau(niveau - 1);
+
+            }
+
 
             processRecrutementRepository.save(process);
+            recrutementRepository.save(recrutement);
         }
-
-
-
-        recrutementRepository.save(recrutement);
-
     }
+
 
 
 

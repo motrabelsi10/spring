@@ -1,18 +1,21 @@
 package tn.esprit.espritgather.service;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import tn.esprit.espritgather.entity.Event;
 import tn.esprit.espritgather.entity.Task;
 import tn.esprit.espritgather.entity.User;
 import tn.esprit.espritgather.enumeration.EventSkill;
+import tn.esprit.espritgather.enumeration.StatusT;
 import tn.esprit.espritgather.repo.EventRepository;
 import tn.esprit.espritgather.repo.TaskRepository;
 import tn.esprit.espritgather.repo.UserRepository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
+
+@Slf4j
 
 @Service
 @AllArgsConstructor
@@ -40,6 +43,34 @@ public class TaskServiceImpl implements ITaskService {
 
     public Task modifyTask(Task task) {
         return taskRepository.save(task);
+    }
+
+    @Scheduled(fixedRate = 60000)
+    public void updateStatusTask() {
+        List<Task> tasks = taskRepository.findAll();
+        for (Task task : tasks) {
+            if (task.getTaskFinish() == null || new Date().after(task.getTaskFinish())) {
+                task.setStatus(StatusT.COMPLETED);
+                taskRepository.save(task);
+            }
+            if (new Date().before(task.getTaskFinish()) && new Date().after((task.getTaskStart()))) {
+                task.setStatus(StatusT.IN_PROGRESS);
+                taskRepository.save(task);
+            }
+            if (new Date().before(task.getTaskStart())) {
+                task.setStatus(StatusT.TODO);
+                taskRepository.save(task);
+            }
+        }
+    }
+
+    public Map<String, Long> findTotalTasksByStatus() {
+        List<Object[]> results = taskRepository.findTotalTasksByStatus();
+        return results.stream()
+                .collect(Collectors.toMap(
+                        obj -> String.valueOf(obj[0]),
+                        obj -> Long.valueOf(String.valueOf(obj[1]))
+                ));
     }
 
 

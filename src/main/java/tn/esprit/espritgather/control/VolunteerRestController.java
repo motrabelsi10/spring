@@ -13,6 +13,7 @@ import tn.esprit.espritgather.service.IVolunteerService;
 import tn.esprit.espritgather.entity.Volunteer;
 
 import java.util.List;
+import java.util.Map;
 
 @Tag(name = "Gestion Volunteer")
 @RestController
@@ -130,6 +131,11 @@ public class VolunteerRestController {
     @GetMapping("/retrieve-vol-user/{userId}/{taskId}")
     public List findVolunteerByTaskAndUser(@PathVariable Long userId,@PathVariable Long taskId) {
         return volunteerService.findVolunteerByUser_IdUserAndTask_IdTask(userId,taskId);
+    }
+
+    @GetMapping("/user-volunteer-counts")
+    public Map<String, Long> getUserVolunteerCounts() {
+        return volunteerService.findUserVolunteerCounts();
     }
 
 

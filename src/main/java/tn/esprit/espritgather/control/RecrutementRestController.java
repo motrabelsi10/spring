@@ -72,6 +72,8 @@ public class RecrutementRestController {
 
     @GetMapping("/retrieve-recs-by-user/{user-id}")
     public List<Recrutement> retrieverecsByUser(@PathVariable("user-id") Long userId) {
+        recrutementService.updateRecArchive();
+
         List<Recrutement> recs = recrutementService.retrieverecsByUser(userId);
         return recs;
     }

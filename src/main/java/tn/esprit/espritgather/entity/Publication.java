@@ -18,7 +18,8 @@ public class Publication {
     private String body;
     private Date datePublication;
 
-
+    private int nl;
+    private int dl;
     @ManyToOne
     @JoinColumn(name = "event")
     private Event event;

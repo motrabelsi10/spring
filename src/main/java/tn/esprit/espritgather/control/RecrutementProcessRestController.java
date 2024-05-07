@@ -133,11 +133,15 @@ public class RecrutementProcessRestController {
        User user = userService.retrieveUser(userId);
        pr.setUser(user);
        pr.setRecrutement(r);
-       processService.compareSkillsAndApprove(r, pr);
+
+       boolean isApproved = processService.compareSkillsAndApprove(r, pr);
+       pr.setApproved(isApproved);
+
        ProcessRecrutement addedProcess = processService.saveProcess(pr, imagePath);
        processService.approveProcess(pr.getIdProcessRecrutement());
-
+       pr.setRecrutement(r);
        return addedProcess;
+
    }
 
     @GetMapping("/retrieve-process-by-rec-and-user/{user-id}/{rec-id}")

@@ -5,6 +5,8 @@ import tn.esprit.espritgather.entity.User;
 import tn.esprit.espritgather.entity.Volunteer;
 
 import java.util.List;
+import java.util.Map;
+
 public interface IVolunteerService {
     public List<Volunteer> retrieveAllVolunteers();
     public Volunteer retrieveVolunteer(Long idVolunteer);
@@ -27,4 +29,6 @@ public interface IVolunteerService {
     void approveVolunteersForTask(Long taskId);
 
     int retrieveNumberVolunteersByIdTask(Long taskId);
+    Map<String, Long> findUserVolunteerCounts();
+
 }

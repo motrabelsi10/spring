@@ -26,6 +26,7 @@ public class Recrutement {
 
     private int niveau;
 
+    private boolean archive;
 
 
     @ElementCollection
